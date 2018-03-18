@@ -1,0 +1,11 @@
+{
+  "id": "goals",
+  "site": {
+    "port": 5005,
+    "name": "Squad Goals",
+    "secret": "squad-goals-secret",
+    "oauth": {
+      "host": "http://127.0.0.1"
+    }
+  }
+}
