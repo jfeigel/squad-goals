@@ -1,0 +1,29 @@
+@import 'src/styles/theme';
+
+.container {
+  margin: 5rem auto;
+}
+
+.mat-card-title .mat-icon {
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+}
+
+.mat-input-container {
+  width: 100%;
+}
+
+.mat-hint {
+  color: mat-color($goals-warn);
+}
+
+.error-message {
+  color: mat-color($goals-warn);
+  font-weight: bold;
+}
+
+.mat-card-actions button {
+  margin: 0;
+}
+

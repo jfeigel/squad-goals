@@ -1,0 +1,8 @@
+@import '~@angular/material/theming';
+
+$goals-primary: mat-palette($mat-teal);
+$goals-accent : mat-palette($mat-pink, A200, A100, A400);
+$goals-warn : mat-palette($mat-deep-orange);
+
+$goals-theme: mat-light-theme($goals-primary, $goals-accent, $goals-warn);
+

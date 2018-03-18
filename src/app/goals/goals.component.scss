@@ -1,0 +1,19 @@
+mat-cell, .addButton {
+  overflow: visible;
+}
+
+mat-cell.bold {
+  font-weight: 500;
+}
+
+.highlight {
+  background-color: #cccccc20;
+
+  &.mat-header-cell {
+    min-height: 56px;
+  }
+
+  &.mat-cell {
+    min-height: 48px;
+  }
+}

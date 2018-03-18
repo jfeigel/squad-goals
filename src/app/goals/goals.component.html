@@ -1,0 +1,69 @@
+<mat-table #table [dataSource]="dataSource">
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef>Goal</mat-header-cell>
+    <mat-cell *matCellDef="let goal; let i = index;" class="bold">{{goal.title}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="amount">
+    <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center">Amount</mat-header-cell>
+    <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center">{{goal.amount}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="m">
+    <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'm'}">Monday</mat-header-cell>
+    <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'm'}">
+      <mat-checkbox [checked]="goal.m" (change)="checkboxChanged($event, i, 'm')"></mat-checkbox>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="t">
+    <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 't'}">Tuesday</mat-header-cell>
+    <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 't'}">
+      <mat-checkbox [checked]="goal.t" (change)="checkboxChanged($event, i, 't')"></mat-checkbox>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="w">
+    <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'w'}">Wednesday</mat-header-cell>
+    <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'w'}">
+      <mat-checkbox [checked]="goal.w" (change)="checkboxChanged($event, i, 'w')"></mat-checkbox>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="th">
+    <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'th'}">Thursday</mat-header-cell>
+    <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'th'}">
+      <mat-checkbox [checked]="goal.th" (change)="checkboxChanged($event, i, 'th')"></mat-checkbox>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="f">
+    <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'f'}">Friday</mat-header-cell>
+    <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'f'}">
+      <mat-checkbox [checked]="goal.f" (change)="checkboxChanged($event, i, 'f')"></mat-checkbox>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="sa">
+    <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'sa'}">Saturday</mat-header-cell>
+    <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'sa'}">
+      <mat-checkbox [checked]="goal.sa" (change)="checkboxChanged($event, i, 'sa')"></mat-checkbox>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="su">
+    <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'su'}">Sunday</mat-header-cell>
+    <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'su'}">
+      <mat-checkbox [checked]="goal.su" (change)="checkboxChanged($event, i, 'su')"></mat-checkbox>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="add">
+    <mat-header-cell *matHeaderCellDef class="addButton" fxLayout="row" fxLayoutAlign="center center">
+      <button mat-mini-fab (click)="addRow()"><mat-icon>add</mat-icon></button>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center">
+      <button mat-icon-button color="primary" (click)="addRow(goal, i)" matTooltip="Edit" matTooltipShowDelay="1000" matTooltipPosition="left"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button color="warn" (click)="removeRow(i)" matTooltip="Delete" matTooltipShowDelay="1000" matTooltipPosition="right"><mat-icon>delete</mat-icon></button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+  <mat-progress-bar mode="determinate" [value]="(complete / total) * 100"></mat-progress-bar>
+  <div fxFlex="1 0 auto">{{complete}} / {{total}}</div>
+</div>

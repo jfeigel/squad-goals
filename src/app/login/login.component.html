@@ -1,0 +1,24 @@
+<div class="container">
+  <form (ngSubmit)="onSubmit()" #loginForm="ngForm" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card fxFlex="0 0 300px">
+      <mat-card-title>
+        <mat-icon>account_circle</mat-icon>User Login
+      </mat-card-title>
+      <mat-card-content>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Username" name="username" [(ngModel)]="userModel.username" [formControl]="usernameFormControl" required>
+          <mat-error *ngIf="usernameFormControl.hasError('required')">Username is a required field.</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userModel.password" [formControl]="passwordFormControl" required>
+          <mat-error *ngIf="passwordFormControl.hasError('required')">Password is a required field.</mat-error>
+        </mat-form-field>
+        <p *ngIf="errorMessage" class="error-message text-center">{{errorMessage}}</p>
+      </mat-card-content>
+      <mat-card-actions fxLayout="row">
+        <span fxFlex="100"></span>
+        <button mat-raised-button color="accent" type="submit" class="btn btn-primary" [disabled]="!loginForm.form.valid">Submit</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

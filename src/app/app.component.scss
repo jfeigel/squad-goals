@@ -1,0 +1,16 @@
+.content {
+  margin: 10px;
+}
+
+.mat-toolbar .brand{
+  color: white;
+  text-decoration: none;
+
+  &:active,
+  &:focus,
+  &:hover,
+  &:visited {
+    color: white;
+  }
+
+}
