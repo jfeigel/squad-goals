@@ -63,7 +63,26 @@
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
 
-<div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+<div class="completionContainer" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="10px">
+  <div fxLayout="column" fxLayoutAlign="center space-between">
+    <h2>Total Amount of Goals</h2>
+    <div class="progressContainer">
+      <mat-progress-spinner [color]="amountCompleteColor" [value]="amountComplete"></mat-progress-spinner>
+      <mat-progress-spinner class="spinnerBackground" value="100"></mat-progress-spinner>
+      <span class="ratio">{{complete}} / {{total}}</span>
+    </div>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="center space-between">
+    <h2>Total Goals</h2>
+    <div class="progressContainer">
+      <mat-progress-spinner [color]="goalsCompleteColor" [value]="goalsComplete"></mat-progress-spinner>
+      <mat-progress-spinner class="spinnerBackground" value="100"></mat-progress-spinner>
+      <span class="ratio">{{currentGoalsComplete}} / {{goalsToComplete}}</span>
+    </div>
+  </div>
+</div>
+
+<!-- <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
   <mat-progress-bar mode="determinate" [value]="(complete / total) * 100"></mat-progress-bar>
   <div fxFlex="1 0 auto">{{complete}} / {{total}}</div>
-</div>
+</div> -->

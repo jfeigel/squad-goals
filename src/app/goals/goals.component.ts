@@ -16,6 +16,12 @@ import { GoalsService } from './goals.service';
 export class GoalsComponent implements OnInit {
   public complete = 0;
   public total = 0;
+  public amountComplete = 0;
+  public goalsComplete = 0;
+  public currentGoalsComplete = 0;
+  public goalsToComplete = 0;
+  public amountCompleteColor = 'warn';
+  public goalsCompleteColor = 'warn';
   public displayedColumns = ['title', 'amount', 'm', 't', 'w', 'th', 'f', 'sa', 'su', 'add'];
   public dataSource;
   public day;
@@ -30,17 +36,19 @@ export class GoalsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const date = new Date();
-    const dayOfWeek = date.getDay();
-    switch (dayOfWeek) {
-      case 0: this.day = 'su'; break;
-      case 1: this.day = 'm'; break;
-      case 2: this.day = 't'; break;
-      case 3: this.day = 'w'; break;
-      case 4: this.day = 'th'; break;
-      case 5: this.day = 'f'; break;
-      case 6: this.day = 'sa'; break;
-    }
+    setInterval(() => {
+      const date = new Date();
+      const dayOfWeek = date.getDay();
+      switch (dayOfWeek) {
+        case 0: this.day = 'su'; break;
+        case 1: this.day = 'm'; break;
+        case 2: this.day = 't'; break;
+        case 3: this.day = 'w'; break;
+        case 4: this.day = 'th'; break;
+        case 5: this.day = 'f'; break;
+        case 6: this.day = 'sa'; break;
+      }
+    }, 1000);
     this._route.data
       .subscribe((data: { content: any }) => {
         this._goalsData = data.content;
@@ -60,9 +68,41 @@ export class GoalsComponent implements OnInit {
         + Number(goal.sa)
         + Number(goal.su);
     }, 0);
+
     this.total = _.reduce(this._goalsData.goals, (total, goal: any) => {
       return total + goal.amount;
     }, 0);
+
+    this.amountComplete = (this.complete / this.total) * 100;
+
+    if (this.amountComplete < 33) {
+      this.amountCompleteColor = 'warn';
+    } else if (this.amountComplete >= 33 && this.amountComplete <= 67) {
+      this.amountCompleteColor = 'accent';
+    } else {
+      this.amountCompleteColor = 'primary';
+    }
+
+    this.goalsToComplete = Math.floor(this._goalsData.goals.length * .75);
+    this.currentGoalsComplete = _.reduce(this._goalsData.goals, (complete, goal: any) => {
+      const goalTotal = Number(goal.m)
+        + Number(goal.t)
+        + Number(goal.w)
+        + Number(goal.th)
+        + Number(goal.f)
+        + Number(goal.sa)
+        + Number(goal.su);
+      return complete + Number(goalTotal >= goal.amount);
+    }, 0);
+    this.goalsComplete = (this.currentGoalsComplete / this.goalsToComplete) * 100;
+
+    if (this.goalsComplete < 33) {
+      this.goalsCompleteColor = 'warn';
+    } else if (this.goalsComplete >= 33 && this.goalsComplete <= 67) {
+      this.goalsCompleteColor = 'accent';
+    } else {
+      this.goalsCompleteColor = 'primary';
+    }
   }
 
   checkboxChanged(e, index, day) {
@@ -74,6 +114,7 @@ export class GoalsComponent implements OnInit {
     this.dataSource.data[index][day] = e.checked;
     this._goalsData.goals = this.dataSource.data;
     this._goalsService.save(this._goalsData);
+    this._calculate();
   }
 
   addRow(goal, index) {
