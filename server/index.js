@@ -60,8 +60,8 @@ app.use(async function response(ctx, next) {
 
 require('./routes');
 
-console.log(`${config.site.name} is now listening on port ${config.site.port}`);
-app.listen(config.site.port);
+console.log(`${config.site.name} is now listening on port ${process.env.PORT || config.site.port}`);
+app.listen(process.env.PORT || config.site.port);
 
 process.on('SIGINT', () => {
   process.exit();
