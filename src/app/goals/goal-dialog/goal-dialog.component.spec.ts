@@ -6,12 +6,13 @@ describe('GoalDialogComponent', () => {
   let component: GoalDialogComponent;
   let fixture: ComponentFixture<GoalDialogComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ GoalDialogComponent ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        declarations: [GoalDialogComponent]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GoalDialogComponent);

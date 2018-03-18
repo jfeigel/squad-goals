@@ -50,4 +50,4 @@ import {
     MatTooltipModule
   ]
 })
-export class MatModule { }
+export class MatModule {}

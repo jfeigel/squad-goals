@@ -36,5 +36,4 @@ export class GoalDialogComponent implements OnInit {
 
     this.dialogRef.close(this.goalModel);
   }
-
 }

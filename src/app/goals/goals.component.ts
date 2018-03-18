@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog, MatDialogConfig, MatTableDataSource } from '@angular/material';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatTableDataSource
+} from '@angular/material';
 
 import * as _ from 'lodash';
 
@@ -22,7 +26,18 @@ export class GoalsComponent implements OnInit {
   public goalsToComplete = 0;
   public amountCompleteColor = 'warn';
   public goalsCompleteColor = 'warn';
-  public displayedColumns = ['title', 'amount', 'm', 't', 'w', 'th', 'f', 'sa', 'su', 'add'];
+  public displayedColumns = [
+    'title',
+    'amount',
+    'm',
+    't',
+    'w',
+    'th',
+    'f',
+    'sa',
+    'su',
+    'add'
+  ];
   public dataSource;
   public day;
 
@@ -33,47 +48,70 @@ export class GoalsComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private _goalsService: GoalsService
-  ) { }
+  ) {}
 
   ngOnInit() {
     setInterval(() => {
       const date = new Date();
       const dayOfWeek = date.getDay();
       switch (dayOfWeek) {
-        case 0: this.day = 'su'; break;
-        case 1: this.day = 'm'; break;
-        case 2: this.day = 't'; break;
-        case 3: this.day = 'w'; break;
-        case 4: this.day = 'th'; break;
-        case 5: this.day = 'f'; break;
-        case 6: this.day = 'sa'; break;
+        case 0:
+          this.day = 'su';
+          break;
+        case 1:
+          this.day = 'm';
+          break;
+        case 2:
+          this.day = 't';
+          break;
+        case 3:
+          this.day = 'w';
+          break;
+        case 4:
+          this.day = 'th';
+          break;
+        case 5:
+          this.day = 'f';
+          break;
+        case 6:
+          this.day = 'sa';
+          break;
       }
     }, 1000);
-    this._route.data
-      .subscribe((data: { content: any }) => {
-        this._goalsData = data.content;
-        this.dataSource = new MatTableDataSource(this._goalsData.goals);
-        this._calculate();
-      });
+    this._route.data.subscribe((data: { content: any }) => {
+      this._goalsData = data.content;
+      this.dataSource = new MatTableDataSource(this._goalsData.goals);
+      this._calculate();
+    });
   }
 
   private _calculate() {
-    this.complete = _.reduce(this._goalsData.goals, (complete, goal: any) => {
-      return complete
-        + Number(goal.m)
-        + Number(goal.t)
-        + Number(goal.w)
-        + Number(goal.th)
-        + Number(goal.f)
-        + Number(goal.sa)
-        + Number(goal.su);
-    }, 0);
+    this.complete = _.reduce(
+      this._goalsData.goals,
+      (complete, goal: any) => {
+        return (
+          complete +
+          Number(goal.m) +
+          Number(goal.t) +
+          Number(goal.w) +
+          Number(goal.th) +
+          Number(goal.f) +
+          Number(goal.sa) +
+          Number(goal.su)
+        );
+      },
+      0
+    );
 
-    this.total = _.reduce(this._goalsData.goals, (total, goal: any) => {
-      return total + goal.amount;
-    }, 0);
+    this.total = _.reduce(
+      this._goalsData.goals,
+      (total, goal: any) => {
+        return total + goal.amount;
+      },
+      0
+    );
 
-    this.amountComplete = (this.complete / this.total) * 100;
+    this.amountComplete = this.complete / this.total * 100;
 
     if (this.amountComplete < 33) {
       this.amountCompleteColor = 'warn';
@@ -83,18 +121,23 @@ export class GoalsComponent implements OnInit {
       this.amountCompleteColor = 'primary';
     }
 
-    this.goalsToComplete = Math.floor(this._goalsData.goals.length * .75);
-    this.currentGoalsComplete = _.reduce(this._goalsData.goals, (complete, goal: any) => {
-      const goalTotal = Number(goal.m)
-        + Number(goal.t)
-        + Number(goal.w)
-        + Number(goal.th)
-        + Number(goal.f)
-        + Number(goal.sa)
-        + Number(goal.su);
-      return complete + Number(goalTotal >= goal.amount);
-    }, 0);
-    this.goalsComplete = (this.currentGoalsComplete / this.goalsToComplete) * 100;
+    this.goalsToComplete = Math.floor(this._goalsData.goals.length * 0.75);
+    this.currentGoalsComplete = _.reduce(
+      this._goalsData.goals,
+      (complete, goal: any) => {
+        const goalTotal =
+          Number(goal.m) +
+          Number(goal.t) +
+          Number(goal.w) +
+          Number(goal.th) +
+          Number(goal.f) +
+          Number(goal.sa) +
+          Number(goal.su);
+        return complete + Number(goalTotal >= goal.amount);
+      },
+      0
+    );
+    this.goalsComplete = this.currentGoalsComplete / this.goalsToComplete * 100;
 
     if (this.goalsComplete < 33) {
       this.goalsCompleteColor = 'warn';
@@ -129,14 +172,15 @@ export class GoalsComponent implements OnInit {
     }
     dialogConfig.data.isEditing = !!goal;
 
-    this.dialog.open(GoalDialogComponent, dialogConfig)
-      .afterClosed().subscribe(result => {
+    this.dialog
+      .open(GoalDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe(result => {
         if (result !== undefined) {
           const isEditing = result.isEditing;
           delete result.isEditing;
           if (!isEditing) {
-            data.push(
-              {
+            data.push({
               title: result.title,
               amount: result.amount,
               m: false,
@@ -146,8 +190,7 @@ export class GoalsComponent implements OnInit {
               f: false,
               sa: false,
               su: false
-              }
-            );
+            });
           } else {
             data[index].title = result.title;
             data[index].amount = result.amount;
@@ -160,5 +203,4 @@ export class GoalsComponent implements OnInit {
         }
       });
   }
-
 }

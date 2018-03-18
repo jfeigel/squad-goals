@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Resolve, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import {
+  Resolve,
+  Router,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot
+} from '@angular/router';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -10,20 +15,28 @@ import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class GoalsService {
-  private _apiUrl = environment.production ? '/api/goals' : `${environment.host}:${environment.port}/api/goals`;
+  private _apiUrl = environment.production
+    ? '/api/goals'
+    : `${environment.host}:${environment.port}/api/goals`;
 
   constructor(
     private _http: Http,
     private _router: Router,
     private _authService: AuthService
-  ) { }
+  ) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<any> {
-    return this.get().then(data => {
-      return data;
-    }, err => {
-      return null;
-    });
+  resolve(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Promise<any> {
+    return this.get().then(
+      data => {
+        return data;
+      },
+      err => {
+        return null;
+      }
+    );
   }
 
   get(): Promise<any> {
@@ -54,5 +67,4 @@ export class GoalsService {
     console.error('An Error Occurred:', e);
     return Promise.reject(e.message || e);
   }
-
 }

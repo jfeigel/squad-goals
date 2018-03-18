@@ -1,19 +1,21 @@
-const Promise = require("bluebird");
-const cradle = Promise.promisifyAll(require("cradle"));
-const config = require("../config.json");
+const Promise = require('bluebird');
+const cradle = Promise.promisifyAll(require('cradle'));
+const config = require('../config.json');
 // A custom Error just for database problems.
 function CouchDBError(message) {
-  this.name = "CouchDBError";
-  this.message = (message || "");
+  this.name = 'CouchDBError';
+  this.message = message || '';
 }
 CouchDBError.prototype = Error.prototype;
 
 // Connects to a database and returns the DB object.
-const connectToDatabase = (dbName) => {
+const connectToDatabase = dbName => {
   try {
-    return new (cradle.Connection)().database(dbName);
+    return new cradle.Connection().database(dbName);
   } catch (err) {
-    throw new CouchDBError(`DB: Get: Connection to database [${dbName}] failed`);
+    throw new CouchDBError(
+      `DB: Get: Connection to database [${dbName}] failed`
+    );
   }
 };
 

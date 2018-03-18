@@ -1,12 +1,12 @@
-const config = require("../config.json");
-const db = require("../helpers/db");
+const config = require('../config.json');
+const db = require('../helpers/db');
 
 module.exports = {
   create: async function create() {
     const confirmation = await db.createDatabase(`${config.id}_goals`);
     return confirmation;
   },
-  generate: (data) => {
+  generate: data => {
     const returnObj = {
       title: null,
       amount: 0,

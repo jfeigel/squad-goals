@@ -8,15 +8,14 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AuthService {
-  private _apiUrl = environment.production ? '/api' : `${environment.host}:${environment.port}/api`;
+  private _apiUrl = environment.production
+    ? '/api'
+    : `${environment.host}:${environment.port}/api`;
   private _redirectUrl = '/goals';
   private _isLoggedIn: boolean;
   private _user;
 
-  constructor(
-    private _http: Http,
-    private _router: Router
-  ) {
+  constructor(private _http: Http, private _router: Router) {
     this._isLoggedIn = localStorage.getItem('user') ? true : false;
   }
 
@@ -75,5 +74,4 @@ export class AuthService {
     console.error('An Error Occurred:', e);
     return Promise.reject(e);
   }
-
 }

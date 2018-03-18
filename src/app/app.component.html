@@ -4,10 +4,14 @@
       <a class="brand" routerLink="/">Squad Goals</a>
     </span>
     <span fxFlex="100">&nbsp;</span>
-    <button mat-icon-button *ngIf="!user" (click)="navigate('login')"><mat-icon>person</mat-icon></button>
+    <button mat-icon-button *ngIf="!user" (click)="navigate('login')">
+      <mat-icon>person</mat-icon>
+    </button>
     <span *ngIf="user" fxLayout="row" fxLayoutAlign="stretch center">
       <span>{{user.name}}</span>
-      <button mat-icon-button><mat-icon (click)="logout()">power_settings_new</mat-icon></button>
+      <button mat-icon-button>
+        <mat-icon (click)="logout()">power_settings_new</mat-icon>
+      </button>
     </span>
   </mat-toolbar>
 

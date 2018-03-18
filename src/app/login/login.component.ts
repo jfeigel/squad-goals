@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     private _route: ActivatedRoute,
     private _router: Router,
     private _authService: AuthService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.usernameFormControl = new FormControl('', [Validators.required]);
@@ -31,7 +31,8 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.errorMessage = null;
-    this._authService.login(this.userModel)
+    this._authService
+      .login(this.userModel)
       .then(results => {
         this._router.navigate([this._authService.redirectUrl]);
       })
@@ -42,9 +43,10 @@ export class LoginComponent implements OnInit {
             this.errorMessage = 'Invalid Username and/or Password';
             break;
           default:
-            this.errorMessage = `Server Error (${e.status}). Please try again or contact the administrator.`;
+            this.errorMessage = `Server Error (${
+              e.status
+            }). Please try again or contact the administrator.`;
         }
       });
   }
-
 }

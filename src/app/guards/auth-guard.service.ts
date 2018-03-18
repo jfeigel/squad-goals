@@ -11,12 +11,12 @@ import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild {
-  constructor(
-    private _router: Router,
-    private _authService: AuthService
-  ) { }
+  constructor(private _router: Router, private _authService: AuthService) {}
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
     const url: string = state.url;
 
     if (url === '/login') {
@@ -38,7 +38,10 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     return false;
   }
 
-  canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+  canActivateChild(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): boolean {
     return this.canActivate(route, state);
   }
 }

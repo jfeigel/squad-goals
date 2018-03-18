@@ -10,9 +10,11 @@ const bodyParser = require('koa-bodyparser');
 const passport = require('koa-passport');
 
 const app = new Koa();
-app.use(cors({
-  credentials: true
-}));
+app.use(
+  cors({
+    credentials: true
+  })
+);
 
 exports.app = app;
 exports.passport = passport;
@@ -25,10 +27,12 @@ app.proxy = true;
 // Sessions
 app.keys = [config.site.secret];
 if (process.env.NODE_ENV === 'production') {
-  app.use(session({
-    cookie: { maxAge: 1000 * 60 * 60 * 24 },
-    store: redis()
-  }));
+  app.use(
+    session({
+      cookie: { maxAge: 1000 * 60 * 60 * 24 },
+      store: redis()
+    })
+  );
 } else {
   app.use(session());
 }
@@ -60,7 +64,10 @@ app.use(async function response(ctx, next) {
 
 require('./routes');
 
-console.log(`${config.site.name} is now listening on port ${process.env.PORT || config.site.port}`);
+console.log(
+  `${config.site.name} is now listening on port ${process.env.PORT ||
+    config.site.port}`
+);
 app.listen(process.env.PORT || config.site.port);
 
 process.on('SIGINT', () => {

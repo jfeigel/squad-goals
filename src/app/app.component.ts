@@ -11,11 +11,8 @@ import { AuthService } from './auth/auth.service';
 export class AppComponent implements OnInit {
   public user;
 
-  constructor(
-    private _router: Router,
-    private _authService: AuthService
-  ) {
-    _router.events.subscribe((event) => {
+  constructor(private _router: Router, private _authService: AuthService) {
+    _router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.user = _authService.user;
       }

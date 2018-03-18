@@ -6,11 +6,13 @@
       </mat-card-title>
       <mat-card-content>
         <mat-form-field>
-          <input matInput type="text" placeholder="Username" name="username" [(ngModel)]="userModel.username" [formControl]="usernameFormControl" required>
+          <input matInput type="text" placeholder="Username" name="username" [(ngModel)]="userModel.username" [formControl]="usernameFormControl"
+            required>
           <mat-error *ngIf="usernameFormControl.hasError('required')">Username is a required field.</mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userModel.password" [formControl]="passwordFormControl" required>
+          <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userModel.password" [formControl]="passwordFormControl"
+            required>
           <mat-error *ngIf="passwordFormControl.hasError('required')">Password is a required field.</mat-error>
         </mat-form-field>
         <p *ngIf="errorMessage" class="error-message text-center">{{errorMessage}}</p>

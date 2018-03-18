@@ -1,13 +1,14 @@
 <form (ngSubmit)="onSubmit(addGoalForm)" #addGoalForm="ngForm" novalidate>
-  <h1 mat-dialog-title><span *ngIf="!isEditing">Add New</span><span *ngIf="isEditing">Edit</span> Goal</h1>
+  <h1 mat-dialog-title>
+    <span *ngIf="!isEditing">Add New</span>
+    <span *ngIf="isEditing">Edit</span> Goal</h1>
   <div mat-dialog-content fxLayout="column">
     <mat-form-field>
       <input matInput type="text" placeholder="Goal title" name="title" [(ngModel)]="goalModel.title" required />
       <mat-error *ngIf="titleFormControl.hasError('required')">Goal title is a required field.</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="number" placeholder="Goal amount" name="amount" [(ngModel)]="goalModel.amount" required
-      />
+      <input matInput type="number" placeholder="Goal amount" name="amount" [(ngModel)]="goalModel.amount" required />
       <mat-error *ngIf="amountFormControl.hasError('required')">Goal amount is a required field.</mat-error>
     </mat-form-field>
   </div>

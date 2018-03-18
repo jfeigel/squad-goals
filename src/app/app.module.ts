@@ -4,7 +4,10 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpModule } from '@angular/http';
-import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import {
+  ErrorStateMatcher,
+  ShowOnDirtyErrorStateMatcher
+} from '@angular/material/core';
 
 import { MatModule } from './material/mat.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -40,14 +43,12 @@ import { GoalsService } from './goals/goals.service';
     AppRoutingModule
   ],
   providers: [
-    {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher},
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     AuthService,
     AuthGuard,
     GoalsService
   ],
-  entryComponents: [
-    GoalDialogComponent
-  ],
+  entryComponents: [GoalDialogComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
