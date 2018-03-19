@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, RequestOptions, Response } from '@angular/http';
 import {
   Resolve,
   Router,
@@ -51,19 +51,32 @@ export class GoalsService {
         delete result.error;
         return result;
       })
-      .catch(this.handleError);
+      .catch(this._handleError);
   }
 
   save(data): Promise<any> {
-    const user = this._authService.user;
     return this._http
       .put(`${this._apiUrl}`, data, { withCredentials: true })
       .toPromise()
       .then(response => response.json())
-      .catch(this.handleError);
+      .catch(this._handleError);
   }
 
-  handleError(e: any) {
+  delete(id): Promise<any> {
+    return this._http
+      .delete(
+        `${this._apiUrl}`,
+        new RequestOptions({
+          body: { id: id },
+          withCredentials: true
+        })
+      )
+      .toPromise()
+      .then(response => response.json())
+      .catch(this._handleError);
+  }
+
+  private _handleError(e: any) {
     console.error('An Error Occurred:', e);
     return Promise.reject(e.message || e);
   }

@@ -22,7 +22,7 @@ mat-cell.bold {
   margin-top: 40px;
 }
 
-/deep/ .progressContainer {
+::ng-deep .progressContainer {
   position: relative;
 
   .mat-progress-spinner {

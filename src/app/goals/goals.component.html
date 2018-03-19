@@ -7,6 +7,12 @@
     <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center">Amount</mat-header-cell>
     <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center">{{goal.amount}}</mat-cell>
   </ng-container>
+  <ng-container matColumnDef="done">
+    <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center">Complete?</mat-header-cell>
+    <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center">
+      <mat-icon *ngIf="goal.total >= goal.amount" color="primary">check_circle</mat-icon>
+    </mat-cell>
+  </ng-container>
   <ng-container matColumnDef="m">
     <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'm'}">Monday</mat-header-cell>
     <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'm'}">

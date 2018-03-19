@@ -1,0 +1,9 @@
+<form (ngSubmit)="onSubmit(deleteGoalForm)" #deleteGoalForm="ngForm" novalidate>
+  <h1 mat-dialog-title>Delete Goal</h1>
+  <mat-dialog-content>Are you sure you want to delete goal "{{goal.title}}"?</mat-dialog-content>
+  <mat-dialog-actions fxLayout="row">
+    <span fxFlex="auto"></span>
+    <button type="button" mat-button color="accent" mat-dialog-close>Cancel</button>
+    <button type="submit" mat-button color="accent" [mat-dialog-close]="true">Delete</button>
+  </mat-dialog-actions>
+</form>

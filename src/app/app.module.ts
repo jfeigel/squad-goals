@@ -18,7 +18,10 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { GoalsComponent } from './goals/goals.component';
+import { SettingsComponent } from './settings/settings.component';
+
 import { GoalDialogComponent } from './goals/goal-dialog/goal-dialog.component';
+import { GoalDeleteDialogComponent } from './goals/goal-delete-dialog/goal-delete-dialog.component';
 
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './guards/auth-guard.service';
@@ -30,7 +33,9 @@ import { GoalsService } from './goals/goals.service';
     LoginComponent,
     HomeComponent,
     GoalsComponent,
-    GoalDialogComponent
+    GoalDialogComponent,
+    SettingsComponent,
+    GoalDeleteDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +53,7 @@ import { GoalsService } from './goals/goals.service';
     AuthGuard,
     GoalsService
   ],
-  entryComponents: [GoalDialogComponent],
+  entryComponents: [GoalDialogComponent, GoalDeleteDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

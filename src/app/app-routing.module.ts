@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { GoalsComponent } from './goals/goals.component';
+import { SettingsComponent } from './settings/settings.component';
 
 import { AuthGuard } from './guards/auth-guard.service';
 import { GoalsService } from './goals/goals.service';
@@ -25,6 +26,11 @@ const routes: Routes = [
     resolve: {
       content: GoalsService
     }
+  },
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '**',

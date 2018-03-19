@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import { GoalDialogComponent } from './goal-dialog/goal-dialog.component';
 
 import { GoalsService } from './goals.service';
+import { GoalDeleteDialogComponent } from './goal-delete-dialog/goal-delete-dialog.component';
 
 @Component({
   selector: 'app-goals',
@@ -29,6 +30,7 @@ export class GoalsComponent implements OnInit {
   public displayedColumns = [
     'title',
     'amount',
+    'done',
     'm',
     't',
     'w',
@@ -89,16 +91,16 @@ export class GoalsComponent implements OnInit {
     this.complete = _.reduce(
       this._goalsData.goals,
       (complete, goal: any) => {
-        return (
-          complete +
+        const goalTotal =
           Number(goal.m) +
           Number(goal.t) +
           Number(goal.w) +
           Number(goal.th) +
           Number(goal.f) +
           Number(goal.sa) +
-          Number(goal.su)
-        );
+          Number(goal.su);
+        goal.total = goalTotal;
+        return complete + goalTotal;
       },
       0
     );
@@ -199,6 +201,26 @@ export class GoalsComponent implements OnInit {
           this._goalsData.goals = data;
           this._goalsService.save(this._goalsData);
           this.dataSource.data = data;
+          this._calculate();
+        }
+      });
+  }
+
+  removeRow(index) {
+    const goal = this.dataSource.data[index];
+    const dialogConfig: MatDialogConfig = {
+      width: '50vw',
+      data: goal
+    };
+
+    this.dialog
+      .open(GoalDeleteDialogComponent, dialogConfig)
+      .afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this._goalsData.goals.splice(index, 1);
+          this._goalsService.save(this._goalsData);
+          this.dataSource.data = this._goalsData.goals;
           this._calculate();
         }
       });

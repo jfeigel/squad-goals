@@ -1,3 +1,5 @@
+@import 'src/styles/theme';
+
 .content {
   margin: 10px;
 }
@@ -12,5 +14,13 @@
   &:visited {
     color: white;
   }
+}
 
+.mat-menu-item.active {
+  color: mat-color($goals-primary);
+  background-color: rgba(mat-color($goals-primary), .04);
+
+  .mat-icon {
+    color: mat-color($goals-primary);
+  }
 }
