@@ -62,20 +62,6 @@ export class GoalsService {
       .catch(this._handleError);
   }
 
-  delete(id): Promise<any> {
-    return this._http
-      .delete(
-        `${this._apiUrl}`,
-        new RequestOptions({
-          body: { id: id },
-          withCredentials: true
-        })
-      )
-      .toPromise()
-      .then(response => response.json())
-      .catch(this._handleError);
-  }
-
   private _handleError(e: any) {
     console.error('An Error Occurred:', e);
     return Promise.reject(e.message || e);

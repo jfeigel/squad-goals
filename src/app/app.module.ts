@@ -22,10 +22,12 @@ import { SettingsComponent } from './settings/settings.component';
 
 import { GoalDialogComponent } from './goals/goal-dialog/goal-dialog.component';
 import { GoalDeleteDialogComponent } from './goals/goal-delete-dialog/goal-delete-dialog.component';
+import { FriendsDialogComponent } from './settings/friends-dialog/friends-dialog.component';
 
 import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './guards/auth-guard.service';
 import { GoalsService } from './goals/goals.service';
+import { UserService } from './user/user.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { GoalsService } from './goals/goals.service';
     GoalsComponent,
     GoalDialogComponent,
     SettingsComponent,
-    GoalDeleteDialogComponent
+    GoalDeleteDialogComponent,
+    FriendsDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -51,9 +54,14 @@ import { GoalsService } from './goals/goals.service';
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     AuthService,
     AuthGuard,
-    GoalsService
+    GoalsService,
+    UserService
   ],
-  entryComponents: [GoalDialogComponent, GoalDeleteDialogComponent],
+  entryComponents: [
+    GoalDialogComponent,
+    GoalDeleteDialogComponent,
+    FriendsDialogComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

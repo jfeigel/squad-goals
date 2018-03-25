@@ -20,7 +20,7 @@ if (config.site.port !== 80) {
 passport.use(
   new LocalStrategy(async function(username, password, done) {
     // get the user
-    const user = await userModel.get(username);
+    const user = await userModel.getByEmail(username);
     if (user.error === true) {
       // this user doesn't exist
       return done(null, false);

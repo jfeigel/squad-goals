@@ -21,8 +21,14 @@ module.exports = {
     return Object.assign(returnObj, data);
   },
   get: async function get(id) {
-    const document = await db.getDocument(id, `${config.id}_goals`);
-    return document;
+    const document = await db.runView(
+      'goals/currentGoals',
+      id,
+      `${config.id}_goals`
+    );
+    let goals = document.results[0].value;
+    goals.error = document.error;
+    return goals;
   },
   replace: async function replace(document) {
     const body = await db.getDocument(document.id, `${config.id}_goals`);

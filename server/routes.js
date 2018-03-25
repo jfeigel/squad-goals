@@ -5,6 +5,7 @@ const passport = require('./index').passport;
 const Router = require('koa-router');
 const fs = require('fs');
 
+const user = require('./controllers/user');
 const goals = require('./controllers/goals');
 
 const routes = new Router();
@@ -53,6 +54,12 @@ routes.post('/api/logout', function(ctx) {
   ctx.logout();
   ctx.status = 204;
 });
+
+routes.get('/api/user/id/:id', user.get);
+routes.get('/api/user/email/:email', user.getByEmail);
+routes.get('/api/user/:id/friends', user.getFriends);
+routes.put('/api/user/:id/friends', user.addFriend);
+routes.get('/api/user/search', user.search);
 
 routes.get('/api/goals/:id', goals.get);
 routes.post('/api/goals', goals.create);

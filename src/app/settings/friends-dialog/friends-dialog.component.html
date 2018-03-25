@@ -1,0 +1,22 @@
+<form [formGroup]="searchForm">
+  <h1 mat-dialog-title>Add Friend</h1>
+  <div mat-dialog-content fxLayout="column">
+    <mat-form-field>
+      <input matInput type="email" formControlName="search" placeholder="Search for Users" />
+    </mat-form-field>
+  </div>
+  <mat-dialog-actions fxLayout="row">
+    <span fxFlex="auto"></span>
+    <button type="button" mat-button color="accent" (click)="dialogRef.close()">Cancel</button>
+  </mat-dialog-actions>
+</form>
+<div *ngIf="results && results.length > 0">
+  <h3>Results</h3>
+  <div *ngFor="let user of results" fxLayout="row" fxLayoutAlign="space-between center">
+    <span fxFlex="auto">{{user.name}}</span>
+    <span fxFlex="auto">{{user.email}}</span>
+    <span fxFlexAlign="end">
+      <button mat-button color="primary" (click)="addFriend(user)">Add</button>
+    </span>
+  </div>
+</div>

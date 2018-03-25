@@ -86,8 +86,10 @@ exports.runView = async function runView(path, key, database) {
     const returnVal = {};
     if (key === null) {
       returnVal.results = await db.viewAsync(path);
-    } else {
+    } else if (typeof key === 'string') {
       returnVal.results = await db.viewAsync(path, { key: key });
+    } else {
+      returnVal.results = await db.viewAsync(path, key);
     }
     returnVal.error = false;
     return returnVal;

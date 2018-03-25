@@ -10,6 +10,8 @@
     <mat-form-field>
       <input matInput type="number" placeholder="Goal amount" name="amount" [(ngModel)]="goalModel.amount" required />
       <mat-error *ngIf="amountFormControl.hasError('required')">Goal amount is a required field.</mat-error>
+      <mat-error *ngIf="amountFormControl.hasError('min') || amountFormControl.hasError('max')">
+        Goal amount must be between 1 and 7.</mat-error>
     </mat-form-field>
   </div>
   <mat-dialog-actions fxLayout="row">

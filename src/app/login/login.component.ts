@@ -12,9 +12,18 @@ import { AuthService } from '../auth/auth.service';
 export class LoginComponent implements OnInit {
   public usernameFormControl;
   public passwordFormControl;
+  public nameFormControl;
+  public emailFormControl;
+  public passwordConfirmFormControl;
   public userModel = {
     username: null,
     password: null
+  };
+  public signupModel = {
+    name: null,
+    email: null,
+    password: null,
+    passwordConfirm: null
   };
   public errorMessage = null;
 
@@ -27,6 +36,14 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.usernameFormControl = new FormControl('', [Validators.required]);
     this.passwordFormControl = new FormControl('', [Validators.required]);
+    this.nameFormControl = new FormControl('', [Validators.required]);
+    this.emailFormControl = new FormControl('', [
+      Validators.required,
+      Validators.email
+    ]);
+    this.passwordConfirmFormControl = new FormControl('', [
+      Validators.required
+    ]);
   }
 
   onSubmit() {

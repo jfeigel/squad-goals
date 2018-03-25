@@ -21,7 +21,11 @@ export class GoalDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.titleFormControl = new FormControl('', [Validators.required]);
-    this.amountFormControl = new FormControl('', [Validators.required]);
+    this.amountFormControl = new FormControl('', [
+      Validators.required,
+      Validators.min(1),
+      Validators.max(7)
+    ]);
   }
 
   ngOnInit() {

@@ -8,6 +8,7 @@ import { SettingsComponent } from './settings/settings.component';
 
 import { AuthGuard } from './guards/auth-guard.service';
 import { GoalsService } from './goals/goals.service';
+import { UserService } from './user/user.service';
 
 const routes: Routes = [
   {
@@ -30,7 +31,10 @@ const routes: Routes = [
   {
     path: 'settings',
     component: SettingsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    resolve: {
+      content: UserService
+    }
   },
   {
     path: '**',

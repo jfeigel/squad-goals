@@ -13,6 +13,7 @@ import {
   MatProgressBarModule,
   MatProgressSpinnerModule,
   MatSelectModule,
+  MatTabsModule,
   MatTableModule,
   MatToolbarModule,
   MatTooltipModule
@@ -32,6 +33,7 @@ import {
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatSelectModule,
+    MatTabsModule,
     MatTableModule,
     MatToolbarModule,
     MatTooltipModule
@@ -48,6 +50,7 @@ import {
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatSelectModule,
+    MatTabsModule,
     MatTableModule,
     MatToolbarModule,
     MatTooltipModule

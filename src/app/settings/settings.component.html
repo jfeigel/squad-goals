@@ -1,3 +1,29 @@
-<p>
-  settings works!
-</p>
+<div class="friendsContainer">
+  <h2>Friends</h2>
+  <mat-table #table [dataSource]="friendsDataSource">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let friend">{{friend.name}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+      <mat-cell *matCellDef="let friend">{{friend.email}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="add">
+      <mat-header-cell *matHeaderCellDef class="addButton" fxLayout="row" fxLayoutAlign="center center">
+        <button mat-mini-fab (click)="addRow()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center">
+        <button mat-icon-button color="warn" (click)="removeRow(i)" matTooltip="Delete" matTooltipShowDelay="1000" matTooltipPosition="right">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <span class="noFriends" *ngIf="!(friends.length > 0)" fxLayout="row" fxLayoutAlign="center center">No friends found. Add a new one now!</span>
+</div>

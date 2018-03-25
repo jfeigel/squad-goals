@@ -1,6 +1,7 @@
 const config = require('../config.json');
 const db = require('../helpers/db');
 const bcrypt = require('bcryptjs');
+const _ = require('lodash');
 
 module.exports = {
   create: async function create() {
@@ -35,6 +36,42 @@ module.exports = {
   get: async function get(id) {
     const document = await db.getDocument(id, `${config.id}_user`);
     return document;
+  },
+  getByEmail: async function get(email) {
+    const document = await db.runView(
+      'user/byEmail',
+      email,
+      `${config.id}_user`
+    );
+    let user = document.results[0].value;
+    user.error = document.error;
+    return user;
+  },
+  getFriends: async function getFriends(id) {
+    const document = await db.runView('user/friends', id, `${config.id}_user`);
+    const friends = _.map(document.results, 'value');
+    return friends;
+  },
+  addFriend: async function addFriend(user_id, friend_id) {
+    const user = await db.getDocument(user_id, `${config.id}_user`);
+    const friend = await db.getDocument(friend_id, `${config.id}_user`);
+    user.friends.push(friend_id);
+    friend.friends.push(user_id);
+    this.save(user);
+    return this.save(friend);
+  },
+  search: async function search(query) {
+    const opts = {
+      startkey: query,
+      endkey: `${query}\u9999`
+    };
+    const document = await db.runView(
+      'user/byEmail',
+      opts,
+      `${config.id}_user`
+    );
+    const users = _.map(document.results, 'value');
+    return users;
   },
   save: async function save(document) {
     const confirmation = await db.saveDocument(document, `${config.id}_user`);

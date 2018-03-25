@@ -1,26 +1,68 @@
-<div class="container">
-  <form (ngSubmit)="onSubmit()" #loginForm="ngForm" fxLayout="row" fxLayoutAlign="center center">
-    <mat-card fxFlex="0 0 300px">
-      <mat-card-title>
-        <mat-icon>account_circle</mat-icon>User Login
-      </mat-card-title>
-      <mat-card-content>
-        <mat-form-field>
-          <input matInput type="text" placeholder="Username" name="username" [(ngModel)]="userModel.username" [formControl]="usernameFormControl"
-            required>
-          <mat-error *ngIf="usernameFormControl.hasError('required')">Username is a required field.</mat-error>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userModel.password" [formControl]="passwordFormControl"
-            required>
-          <mat-error *ngIf="passwordFormControl.hasError('required')">Password is a required field.</mat-error>
-        </mat-form-field>
-        <p *ngIf="errorMessage" class="error-message text-center">{{errorMessage}}</p>
-      </mat-card-content>
-      <mat-card-actions fxLayout="row">
-        <span fxFlex="100"></span>
-        <button mat-raised-button color="accent" type="submit" class="btn btn-primary" [disabled]="!loginForm.form.valid">Submit</button>
-      </mat-card-actions>
-    </mat-card>
-  </form>
+<div class="container" fxLayout="row" fxLayoutAlign="center center">
+  <mat-card fxFlex="0 0 500px">
+    <mat-tab-group>
+      <mat-tab label="Login">
+        <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+          <mat-card>
+            <mat-card-title>
+              <mat-icon>account_circle</mat-icon>User Login
+            </mat-card-title>
+            <mat-card-content>
+              <mat-form-field>
+                <input matInput type="text" placeholder="Username" name="username" [(ngModel)]="userModel.username" [formControl]="usernameFormControl"
+                  required>
+                <mat-error *ngIf="usernameFormControl.hasError('required')">Username is a required field.</mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userModel.password" [formControl]="passwordFormControl"
+                  required>
+                <mat-error *ngIf="passwordFormControl.hasError('required')">Password is a required field.</mat-error>
+              </mat-form-field>
+              <p *ngIf="errorMessage" class="error-message text-center">{{errorMessage}}</p>
+            </mat-card-content>
+            <mat-card-actions fxLayout="row">
+              <span fxFlex="100"></span>
+              <button mat-raised-button color="accent" type="submit" class="btn btn-primary" [disabled]="!loginForm.form.valid">Submit</button>
+            </mat-card-actions>
+          </mat-card>
+        </form>
+      </mat-tab>
+      <mat-tab label="Sign Up">
+        <form (ngSubmit)="onSignup()" #signupForm="ngForm">
+          <mat-card>
+            <mat-card-title>
+              <mat-icon>account_circle</mat-icon>User Sign Up
+            </mat-card-title>
+            <mat-card-content>
+              <mat-form-field>
+                <input matInput type="text" placeholder="Name" name="name" [(ngModel)]="signupModel.name" [formControl]="nameFormControl"
+                  required>
+                <mat-error *ngIf="nameFormControl.hasError('required')">Name is a required field.</mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput type="email" placeholder="Email Address" name="email" [(ngModel)]="signupModel.email" [formControl]="emailFormControl"
+                  required>
+                <mat-error *ngIf="emailFormControl.hasError('required')">Email Address is a required field.</mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="signupModel.password" [formControl]="passwordFormControl"
+                  required>
+                <mat-error *ngIf="passwordFormControl.hasError('required')">Password is a required field.</mat-error>
+              </mat-form-field>
+              <mat-form-field>
+                <input matInput type="password" placeholder="Password Confirmation" name="passwordConfirm" [(ngModel)]="signupModel.passwordConfirm"
+                  [formControl]="passwordConfirmFormControl" required>
+                <mat-error *ngIf="passwordConfirmFormControl.hasError('required')">Password Confirmation is a required field.</mat-error>
+              </mat-form-field>
+              <p *ngIf="errorMessage" class="error-message text-center">{{errorMessage}}</p>
+            </mat-card-content>
+            <mat-card-actions fxLayout="row">
+              <span fxFlex="100"></span>
+              <button mat-raised-button color="accent" type="submit" class="btn btn-primary" [disabled]="!signupForm.form.valid">Submit</button>
+            </mat-card-actions>
+          </mat-card>
+        </form>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
 </div>
