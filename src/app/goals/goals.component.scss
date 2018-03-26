@@ -48,3 +48,18 @@ mat-cell.bold {
     transform: translate(-50%, -50%);
   }
 }
+
+.no-goals {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #aaa;
+  mat-icon {
+    font-size: 4rem;
+    height: 4rem;
+    width: 4rem;
+    margin-bottom: 1rem;
+  }
+  button {
+    margin-top: 1rem;
+  }
+}

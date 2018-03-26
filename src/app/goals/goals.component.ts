@@ -42,6 +42,9 @@ export class GoalsComponent implements OnInit {
   ];
   public dataSource;
   public day;
+  public user;
+  public users: Array<any> = [];
+  public view;
 
   private _goalsData;
 
@@ -80,7 +83,13 @@ export class GoalsComponent implements OnInit {
           break;
       }
     }, 1000);
-    this._route.data.subscribe((data: { content: any }) => {
+    this._route.data.subscribe((data: { content: any, user: any }) => {
+      this.user = data.user.user;
+      this.users = _.map(data.user.friends, friend => {
+        return { _id: friend._id, name: friend.name };
+      });
+      this.users.unshift({ _id: data.user.user._id, name: data.user.user.name });
+      this.view = data.user.user._id;
       this._goalsData = data.content;
       this.dataSource = new MatTableDataSource(this._goalsData.goals);
       this._calculate();
@@ -148,6 +157,27 @@ export class GoalsComponent implements OnInit {
     } else {
       this.goalsCompleteColor = 'primary';
     }
+  }
+
+  public viewChanged(e) {
+    this._goalsService
+      .get(e.value)
+      .then(goalsData => {
+        this._goalsData = goalsData;
+        this.dataSource.data = goalsData.goals;
+        if (this.user._id !== goalsData._id) {
+          const index = this.displayedColumns.indexOf('add');
+          if (index !== -1) {
+            this.displayedColumns.splice(index, 1);
+          }
+        } else {
+          const index = this.displayedColumns.indexOf('add');
+          if (index === -1) {
+            this.displayedColumns.push('add');
+          }
+        }
+        this._calculate();
+      });
   }
 
   checkboxChanged(e, index, day) {

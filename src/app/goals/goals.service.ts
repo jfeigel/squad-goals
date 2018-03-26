@@ -39,10 +39,13 @@ export class GoalsService {
     );
   }
 
-  get(): Promise<any> {
-    const user = this._authService.user;
+  get(user_id?): Promise<any> {
+    if (!user_id) {
+      const user = this._authService.user;
+      user_id = user._id;
+    }
     return this._http
-      .get(`${this._apiUrl}/${user._id}`, { withCredentials: true })
+      .get(`${this._apiUrl}/${user_id}`, { withCredentials: true })
       .toPromise()
       .then(response => {
         const result = response.json();

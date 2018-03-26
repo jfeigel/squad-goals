@@ -25,7 +25,8 @@ const routes: Routes = [
     component: GoalsComponent,
     canActivate: [AuthGuard],
     resolve: {
-      content: GoalsService
+      content: GoalsService,
+      user: UserService
     }
   },
   {
