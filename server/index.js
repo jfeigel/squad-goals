@@ -3,11 +3,14 @@ const config = require('./config.json');
 const Koa = require('koa');
 const cors = require('kcors');
 const serve = require('koa-static');
+const bodyParser = require('koa-bodyparser');
 // Passport support
 const session = require('koa-session2');
 const redis = require('koa-redis');
-const bodyParser = require('koa-bodyparser');
 const passport = require('koa-passport');
+// Sockets
+const KoaSocket = require('koa-socket');
+const io = new KoaSocket();
 
 const app = new Koa();
 app.use(
@@ -15,6 +18,8 @@ app.use(
     credentials: true
   })
 );
+
+io.attach(app);
 
 exports.app = app;
 exports.passport = passport;
@@ -53,6 +58,7 @@ app.use(async function response(ctx, next) {
   try {
     await next();
   } catch (err) {
+    console.error(err);
     ctx.app.emit('error', err, ctx);
     ctx.body = {
       error: true,

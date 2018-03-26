@@ -10,16 +10,33 @@ import {
 import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
+import { Subject } from 'rxjs/Subject';
+import * as io from 'socket.io-client';
 
 import { environment } from '../../environments/environment';
 
 @Injectable()
 export class UserService {
+  public appObservable: Observable<any>;
+  private _appObserver: Observer<any>;
+  private _socket;
+  private _hostUrl = `${environment.host}:${environment.port}`;
   private _apiUrl = environment.production
     ? '/api/user'
-    : `${environment.host}:${environment.port}/api/user`;
+    : `${this._hostUrl}/api/user`;
 
-  constructor(private _http: Http, private _router: Router) {}
+  constructor(private _http: Http, private _router: Router) {
+    this._socket = io(this._hostUrl);
+
+    this.appObservable = new Observable(observer => {
+      this._appObserver = observer;
+      this._socket.on('friend', data => observer.next(data));
+      return () => {
+        this._socket.disconnect();
+      };
+    });
+  }
 
   resolve(
     route: ActivatedRouteSnapshot,
@@ -66,6 +83,16 @@ export class UserService {
   }
 
   public addFriend(user_id, friend_id): Promise<any> {
+    return this._http
+      .post(`${this._apiUrl}/${user_id}/friends`, {
+        friend_id: friend_id
+      })
+      .toPromise()
+      .then(response => response.json())
+      .catch(this._handleError);
+  }
+
+  public confirmFriend(user_id, friend_id): Promise<any> {
     return this._http
       .put(`${this._apiUrl}/${user_id}/friends`, {
         friend_id: friend_id

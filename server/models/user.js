@@ -55,10 +55,30 @@ module.exports = {
   addFriend: async function addFriend(user_id, friend_id) {
     const user = await db.getDocument(user_id, `${config.id}_user`);
     const friend = await db.getDocument(friend_id, `${config.id}_user`);
-    user.friends.push(friend_id);
-    friend.friends.push(user_id);
-    this.save(user);
-    return this.save(friend);
+    user.friends.push({ id: friend_id, status: 'Pending', confirm: friend_id });
+    friend.friends.push({ id: user_id, status: 'Pending', confirm: friend_id });
+    const userConfirmation = await this.save(user);
+    delete userConfirmation.enabled;
+    delete userConfirmation.password;
+    const friendConfirmation = await this.save(friend);
+    delete friendConfirmation.enabled;
+    delete friendConfirmation.password;
+    return { user: userConfirmation, friend: friendConfirmation };
+  },
+  confirmFriend: async function confirmFriend(user_id, friend_id) {
+    const user = await db.getDocument(user_id, `${config.id}_user`);
+    const friend = await db.getDocument(friend_id, `${config.id}_user`);
+    const userIndex = _.findIndex(user.friends, { id: friend_id });
+    user.friends[userIndex].status = 'Active';
+    const friendIndex = _.findIndex(friend.friends, { id: user_id });
+    friend.friends[friendIndex].status = 'Active';
+    const userConfirmation = await this.save(user);
+    delete userConfirmation.enabled;
+    delete userConfirmation.password;
+    const friendConfirmation = await this.save(friend);
+    delete friendConfirmation.enabled;
+    delete friendConfirmation.password;
+    return { user: userConfirmation, friend: friendConfirmation };
   },
   search: async function search(query) {
     const opts = {

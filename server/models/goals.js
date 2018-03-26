@@ -26,7 +26,7 @@ module.exports = {
       id,
       `${config.id}_goals`
     );
-    let goals = document.results[0].value;
+    let goals = document.results[0].value || [];
     goals.error = document.error;
     return goals;
   },

@@ -9,9 +9,12 @@
     </button>
     <span *ngIf="user" fxLayout="row" fxLayoutAlign="stretch center">
       <span>{{user.name}}</span>
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
+      <div class="menu-container">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <span class="badge" *ngIf="badgeCount > 0">{{badgeCount}}</span>
+      </div>
       <mat-menu #menu="matMenu">
         <a mat-menu-item routerLink="/goals" routerLinkActive="active">
           <mat-icon>assignment</mat-icon>
@@ -19,7 +22,9 @@
         </a>
         <a mat-menu-item routerLink="/settings" routerLinkActive="active">
           <mat-icon>settings</mat-icon>
-          <span>Settings</span>
+          <span class="badge-container">
+            <span class="badge inline" *ngIf="badgeCount > 0">{{badgeCount}}</span>Settings
+          </span>
         </a>
         <button mat-menu-item (click)="logout()">
           <mat-icon>power_settings_new</mat-icon>

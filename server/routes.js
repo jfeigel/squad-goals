@@ -58,7 +58,8 @@ routes.post('/api/logout', function(ctx) {
 routes.get('/api/user/id/:id', user.get);
 routes.get('/api/user/email/:email', user.getByEmail);
 routes.get('/api/user/:id/friends', user.getFriends);
-routes.put('/api/user/:id/friends', user.addFriend);
+routes.post('/api/user/:id/friends', user.addFriend);
+routes.put('/api/user/:id/friends', user.confirmFriend);
 routes.get('/api/user/search', user.search);
 
 routes.get('/api/goals/:id', goals.get);
