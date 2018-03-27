@@ -59,10 +59,11 @@ app.use(async function response(ctx, next) {
     await next();
   } catch (err) {
     console.error(err);
+    ctx.status = parseInt(err.status, 10) || ctx.status || 500;
     ctx.app.emit('error', err, ctx);
     ctx.body = {
       error: true,
-      message: String(err),
+      message: err.message || String(err),
       api: ctx.state.api
     };
   }

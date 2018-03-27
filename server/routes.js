@@ -55,6 +55,7 @@ routes.post('/api/logout', function(ctx) {
   ctx.status = 204;
 });
 
+routes.post('/api/user/signup', user.signup);
 routes.get('/api/user/id/:id', user.get);
 routes.get('/api/user/email/:email', user.getByEmail);
 routes.get('/api/user/:id/friends', user.getFriends);

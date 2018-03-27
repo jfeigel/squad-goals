@@ -2,63 +2,73 @@
   <mat-card fxFlex="0 0 500px">
     <mat-tab-group>
       <mat-tab label="Login">
-        <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <form (ngSubmit)="onLogin()" [formGroup]="loginForm">
           <mat-card>
             <mat-card-title>
               <mat-icon>account_circle</mat-icon>User Login
             </mat-card-title>
             <mat-card-content>
               <mat-form-field>
-                <input matInput type="text" placeholder="Username" name="username" [(ngModel)]="userModel.username" [formControl]="usernameFormControl"
-                  required>
-                <mat-error *ngIf="usernameFormControl.hasError('required')">Username is a required field.</mat-error>
+                <input matInput type="text" placeholder="Username" name="username" [(ngModel)]="loginModel.username" formControlName="username"
+                  [formGroup]="loginForm" required>
+                <mat-error *ngIf="loginForm.controls.username.errors?.required">Username is a required field.</mat-error>
               </mat-form-field>
               <mat-form-field>
-                <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="userModel.password" [formControl]="passwordFormControl"
-                  required>
-                <mat-error *ngIf="passwordFormControl.hasError('required')">Password is a required field.</mat-error>
+                <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="loginModel.password" formControlName="password"
+                  [formGroup]="loginForm" required>
+                <mat-error *ngIf="loginForm.controls.password.errors?.required">Password is a required field.</mat-error>
               </mat-form-field>
-              <p *ngIf="errorMessage" class="error-message text-center">{{errorMessage}}</p>
+              <p *ngIf="loginErrorMessage" class="error-message text-center">{{loginErrorMessage}}</p>
             </mat-card-content>
             <mat-card-actions fxLayout="row">
               <span fxFlex="100"></span>
-              <button mat-raised-button color="accent" type="submit" class="btn btn-primary" [disabled]="!loginForm.form.valid">Submit</button>
+              <button mat-raised-button color="accent" type="submit" class="btn btn-primary">Submit</button>
             </mat-card-actions>
           </mat-card>
         </form>
       </mat-tab>
       <mat-tab label="Sign Up">
-        <form (ngSubmit)="onSignup()" #signupForm="ngForm">
+        <form (ngSubmit)="onSignup()" [formGroup]="signupForm">
           <mat-card>
             <mat-card-title>
-              <mat-icon>account_circle</mat-icon>User Sign Up
+              <mat-icon>assignment_ind</mat-icon>User Sign Up
             </mat-card-title>
             <mat-card-content>
               <mat-form-field>
-                <input matInput type="text" placeholder="Name" name="name" [(ngModel)]="signupModel.name" [formControl]="nameFormControl"
+                <input matInput type="text" placeholder="Name" name="name" [(ngModel)]="signupModel.name" formControlName="name" [formGroup]="signupForm"
                   required>
-                <mat-error *ngIf="nameFormControl.hasError('required')">Name is a required field.</mat-error>
+                <mat-error *ngIf="signupForm.controls.name.errors?.required">Name is a required field.</mat-error>
               </mat-form-field>
               <mat-form-field>
-                <input matInput type="email" placeholder="Email Address" name="email" [(ngModel)]="signupModel.email" [formControl]="emailFormControl"
-                  required>
-                <mat-error *ngIf="emailFormControl.hasError('required')">Email Address is a required field.</mat-error>
+                <input matInput type="email" placeholder="Email Address" name="email" [(ngModel)]="signupModel.email" formControlName="email"
+                  [formGroup]="signupForm" required>
+                <mat-error *ngIf="signupForm.controls.email.errors?.required">Email Address is a required field.</mat-error>
+                <mat-error *ngIf="signupForm.controls.email.errors?.email">
+                  Invalid email address.</mat-error>
+                <mat-error *ngIf="signupForm.controls.email.errors?.taken">Email already exists.</mat-error>
               </mat-form-field>
               <mat-form-field>
-                <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="signupModel.password" [formControl]="passwordFormControl"
-                  required>
-                <mat-error *ngIf="passwordFormControl.hasError('required')">Password is a required field.</mat-error>
+                <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="signupModel.password" formControlName="password"
+                  [formGroup]="signupForm" required>
+                <mat-error *ngIf="signupForm.controls.password.errors?.required">Password is a required field.</mat-error>
+                <mat-error *ngIf="signupForm.controls.password.errors?.match">
+                  Passwords do not match.</mat-error>
+                <mat-error *ngIf="signupForm.controls.password.errors?.minlength">Password must be at least 6 characters.</mat-error>
               </mat-form-field>
               <mat-form-field>
                 <input matInput type="password" placeholder="Password Confirmation" name="passwordConfirm" [(ngModel)]="signupModel.passwordConfirm"
-                  [formControl]="passwordConfirmFormControl" required>
-                <mat-error *ngIf="passwordConfirmFormControl.hasError('required')">Password Confirmation is a required field.</mat-error>
+                  formControlName="passwordConfirm" [formGroup]="signupForm" required>
+                <mat-error *ngIf="signupForm.controls.passwordConfirm.errors?.required">Password Confirmation is a required field.</mat-error>
+                <mat-error *ngIf="signupForm.controls.passwordConfirm.errors?.match">
+                  Passwords do not match.</mat-error>
+                <mat-error *ngIf="signupForm.controls.passwordConfirm.errors?.minlength">Password must be at least 6 characters.</mat-error>
               </mat-form-field>
-              <p *ngIf="errorMessage" class="error-message text-center">{{errorMessage}}</p>
+              <p *ngIf="signupErrorMessage" class="error-message text-center">{{signupErrorMessage}}</p>
+              <p *ngIf="signupSuccessMessage" class="success-message text-center">{{signupSuccessMessage}}</p>
             </mat-card-content>
             <mat-card-actions fxLayout="row">
               <span fxFlex="100"></span>
-              <button mat-raised-button color="accent" type="submit" class="btn btn-primary" [disabled]="!signupForm.form.valid">Submit</button>
+              <button mat-raised-button color="accent" type="submit" class="btn btn-primary">Submit</button>
             </mat-card-actions>
           </mat-card>
         </form>

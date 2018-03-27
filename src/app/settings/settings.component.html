@@ -1,10 +1,10 @@
-<div class="friendsContainer">
+<div class="friends-container">
   <h2>Friends</h2>
   <div class="pending-container" *ngIf="pendingFriends.length > 0">
     <h3>Pending Friends</h3>
     <mat-grid-list cols="4" rowHeight="3:2">
       <mat-grid-tile *ngFor="let friend of pendingFriends; let i = index;">
-        <mat-card class="pending-friend">
+        <mat-card>
           <mat-card-header>
             <div mat-card-avatar>
               <mat-icon>account_circle</mat-icon>
@@ -27,7 +27,7 @@
     <span fxFlex="auto"></span>
     <button mat-raised-button color="accent" (click)="addRow()" *ngIf="friends.length > 0">Add Friend</button>
   </div>
-  <mat-grid-list cols="4">
+  <mat-grid-list cols="4" rowHeight="3:2">
     <mat-grid-tile *ngFor="let friend of friends; let i = index;">
       <mat-card>
         <mat-card-header>

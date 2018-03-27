@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import * as _ from 'lodash';
+
 import { AuthService } from '../auth/auth.service';
+import { PasswordValidation } from '../shared/password-validation';
 
 @Component({
   selector: 'app-login',
@@ -10,12 +13,9 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  public usernameFormControl;
-  public passwordFormControl;
-  public nameFormControl;
-  public emailFormControl;
-  public passwordConfirmFormControl;
-  public userModel = {
+  public loginForm: FormGroup;
+  public signupForm: FormGroup;
+  public loginModel = {
     username: null,
     password: null
   };
@@ -25,31 +25,39 @@ export class LoginComponent implements OnInit {
     password: null,
     passwordConfirm: null
   };
-  public errorMessage = null;
+  public loginErrorMessage = null;
+  public signupSuccessMessage = null;
+  public signupErrorMessage = null;
 
   constructor(
     private _route: ActivatedRoute,
+    private _fb: FormBuilder,
     private _router: Router,
     private _authService: AuthService
-  ) {}
-
-  ngOnInit() {
-    this.usernameFormControl = new FormControl('', [Validators.required]);
-    this.passwordFormControl = new FormControl('', [Validators.required]);
-    this.nameFormControl = new FormControl('', [Validators.required]);
-    this.emailFormControl = new FormControl('', [
-      Validators.required,
-      Validators.email
-    ]);
-    this.passwordConfirmFormControl = new FormControl('', [
-      Validators.required
-    ]);
+  ) {
+    this.loginForm = _fb.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required]
+    });
+    this.signupForm = _fb.group(
+      {
+        name: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        passwordConfirm: ['', [Validators.required, Validators.minLength(6)]]
+      },
+      {
+        validator: PasswordValidation.MatchPassword
+      }
+    );
   }
 
-  onSubmit() {
-    this.errorMessage = null;
+  ngOnInit() {}
+
+  onLogin() {
+    this.loginErrorMessage = null;
     this._authService
-      .login(this.userModel)
+      .login(this.loginModel)
       .then(results => {
         this._router.navigate([this._authService.redirectUrl]);
       })
@@ -57,13 +65,35 @@ export class LoginComponent implements OnInit {
         switch (e.status) {
           case 401:
           case 403:
-            this.errorMessage = 'Invalid Username and/or Password';
+            this.loginErrorMessage = 'Invalid Username and/or Password';
             break;
           default:
-            this.errorMessage = `Server Error (${
+            this.loginErrorMessage = `Server Error (${
               e.status
             }). Please try again or contact the administrator.`;
         }
+      });
+  }
+
+  onSignup() {
+    this.signupErrorMessage = null;
+    const user = _.cloneDeep(this.signupModel);
+    delete user.passwordConfirm;
+    this._authService
+      .signup(user)
+      .then(results => {
+        this.signupForm.reset({
+          name: null,
+          email: null,
+          password: null,
+          passwordConfirm: null
+        });
+        this.signupSuccessMessage =
+          'Success! Check your email for confirmation.';
+      })
+      .catch(e => {
+        this.signupForm.get('email').setErrors({ taken: true });
+        this.signupErrorMessage = e.message;
       });
   }
 }

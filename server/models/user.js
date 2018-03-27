@@ -10,12 +10,16 @@ module.exports = {
   },
   generate: data => {
     const returnObj = {
-      id: null,
       enabled: false,
       name: 'John Doe',
-      password: null
+      password: null,
+      friends: []
     };
-    return Object.assign(returnObj, data);
+    const user = Object.assign(returnObj, data);
+    if (user.password) {
+      user.password = encryptPassword(user.password);
+    }
+    return user;
   },
   changePassword: async function changePassword(id, data) {
     const document = await db.getDocument(id, `${config.id}_user`);
@@ -43,6 +47,9 @@ module.exports = {
       email,
       `${config.id}_user`
     );
+    if (document.results.length === 0) {
+      return null;
+    }
     let user = document.results[0].value;
     user.error = document.error;
     return user;

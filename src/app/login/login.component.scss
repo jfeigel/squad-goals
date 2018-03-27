@@ -23,6 +23,11 @@
   font-weight: bold;
 }
 
+.success-message {
+  color: mat-color($goals-primary);
+  font-weight: bold;
+}
+
 .mat-card-actions button {
   margin: 0;
 }

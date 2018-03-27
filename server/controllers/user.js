@@ -1,4 +1,5 @@
 const userModel = require('../models/user');
+const goalsModel = require('../models/goals');
 const sockets = require('./sockets');
 
 const _ = require('lodash');
@@ -24,6 +25,21 @@ module.exports.getByEmail = async function(ctx) {
   delete user.password;
   delete user.enabled;
   ctx.body = user;
+};
+
+module.exports.signup = async function(ctx) {
+  const existing = await userModel.getByEmail(ctx.request.body.email);
+  if (existing) {
+    ctx.throw(400, 'Email already exists');
+  }
+  const user = userModel.generate(ctx.request.body);
+  const userConfirmation = await userModel.save(user);
+  const goals = {
+    user: userConfirmation._id,
+    goals: []
+  };
+  const goalsConfirmation = await goalsModel.save(goals);
+  ctx.status = 201;
 };
 
 module.exports.getFriends = async function(ctx) {

@@ -42,6 +42,14 @@ export class AuthService {
     return JSON.parse(localStorage.getItem('user'));
   }
 
+  signup(user): Promise<any> {
+    return this._http
+      .post(`${this._apiUrl}/user/signup`, user, { withCredentials: true })
+      .toPromise()
+      .then(response => response)
+      .catch(this._handleError);
+  }
+
   login(user): Promise<any> {
     return this._http
       .post(`${this._apiUrl}/login`, user, { withCredentials: true })
@@ -53,7 +61,7 @@ export class AuthService {
         localStorage.setItem('user', JSON.stringify(response));
         return response;
       })
-      .catch(this.handleError);
+      .catch(this._handleError);
   }
 
   logout(): Promise<any> {
@@ -67,11 +75,11 @@ export class AuthService {
         this._router.navigate(['/']);
         return response.json();
       })
-      .catch(this.handleError);
+      .catch(this._handleError);
   }
 
-  handleError(e: any) {
+  private _handleError(e: any) {
     console.error('An Error Occurred:', e);
-    return Promise.reject(e);
+    return Promise.reject(e.json());
   }
 }
