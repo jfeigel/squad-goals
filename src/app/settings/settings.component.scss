@@ -1,9 +1,5 @@
 @import 'src/styles/theme';
 
-h3 {
-  margin-bottom: 0;
-}
-
 mat-cell,
 .addButton {
   overflow: visible;
@@ -50,5 +46,7 @@ mat-cell,
 }
 
 .pending-container {
-  margin-bottom: 4rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #efefef;
 }

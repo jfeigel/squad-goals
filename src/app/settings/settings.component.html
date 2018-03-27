@@ -2,34 +2,8 @@
   <h2>Friends</h2>
   <div class="pending-container" *ngIf="pendingFriends.length > 0">
     <h3>Pending Friends</h3>
-    <mat-grid-list cols="4" rowHeight="3:2">
-      <mat-grid-tile *ngFor="let friend of pendingFriends; let i = index;">
-        <mat-card>
-          <mat-card-header>
-            <div mat-card-avatar>
-              <mat-icon>account_circle</mat-icon>
-            </div>
-            <mat-card-title>{{friend.name}}</mat-card-title>
-            <mat-card-subtitle>{{friend.email}}</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content *ngIf="friend.confirm !== user._id">
-            <p>Waiting for confirmation</p>
-          </mat-card-content>
-          <mat-card-actions *ngIf="friend.confirm === user._id">
-            <button mat-button color="primary" (click)="confirmFriend(friend._id)">Confirm</button>
-          </mat-card-actions>
-        </mat-card>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="stretch center">
-    <h3>Confirmed Friends</h3>
-    <span fxFlex="auto"></span>
-    <button mat-raised-button color="accent" (click)="addRow()" *ngIf="friends.length > 0">Add Friend</button>
-  </div>
-  <mat-grid-list cols="4" rowHeight="3:2">
-    <mat-grid-tile *ngFor="let friend of friends; let i = index;">
-      <mat-card>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <mat-card *ngFor="let friend of pendingFriends; let i = index;">
         <mat-card-header>
           <div mat-card-avatar>
             <mat-icon>account_circle</mat-icon>
@@ -37,12 +11,35 @@
           <mat-card-title>{{friend.name}}</mat-card-title>
           <mat-card-subtitle>{{friend.email}}</mat-card-subtitle>
         </mat-card-header>
-        <mat-card-actions>
-          <button mat-button color="warn" (click)="removeRow(i)">Delete</button>
+        <mat-card-content *ngIf="friend.confirm !== user._id">
+          <p>Waiting for confirmation</p>
+        </mat-card-content>
+        <mat-card-actions *ngIf="friend.confirm === user._id">
+          <button mat-button color="primary" (click)="confirmFriend(friend._id)">Confirm</button>
         </mat-card-actions>
       </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="stretch center">
+    <h3>Confirmed Friends</h3>
+    <span fxFlex="auto"></span>
+    <button mat-raised-button color="accent" (click)="addRow()" *ngIf="friends.length > 0">Add Friend</button>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-card *ngFor="let friend of friends; let i = index;">
+      <mat-card-header>
+        <div mat-card-avatar>
+          <mat-icon>account_circle</mat-icon>
+        </div>
+        <mat-card-title>{{friend.name}}</mat-card-title>
+        <mat-card-subtitle>{{friend.email}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions>
+        <button mat-button color="primary" (click)="viewRow(friend._id)">View</button>
+        <button mat-button color="warn" (click)="removeRow(i)">Delete</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
   <div class="no-friends" *ngIf="!(friends.length > 0)" fxLayout="column" fxLayoutAlign="space-between center">
     <mat-icon>account_circle</mat-icon>
     <span>No friends found. Add a new one now!</span>
