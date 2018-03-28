@@ -5,10 +5,12 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { GoalsComponent } from './goals/goals.component';
 import { SettingsComponent } from './settings/settings.component';
+import { ConfirmComponent } from './confirm/confirm.component';
 
 import { AuthGuard } from './guards/auth-guard.service';
 import { GoalsService } from './goals/goals.service';
 import { UserService } from './user/user.service';
+import { ConfirmService } from './confirm/confirm.service';
 
 const routes: Routes = [
   {
@@ -35,6 +37,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     resolve: {
       content: UserService
+    }
+  },
+  {
+    path: 'confirm/:token',
+    component: ConfirmComponent,
+    canActivate: [AuthGuard],
+    resolve: {
+      content: ConfirmService
     }
   },
   {

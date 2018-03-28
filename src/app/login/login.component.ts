@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 import * as _ from 'lodash';
 
@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
   public signupErrorMessage = null;
 
   constructor(
-    private _route: ActivatedRoute,
     private _fb: FormBuilder,
     private _router: Router,
     private _authService: AuthService

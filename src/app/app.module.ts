@@ -19,6 +19,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { GoalsComponent } from './goals/goals.component';
 import { SettingsComponent } from './settings/settings.component';
+import { ConfirmComponent } from './confirm/confirm.component';
 
 import { GoalDialogComponent } from './goals/goal-dialog/goal-dialog.component';
 import { GoalDeleteDialogComponent } from './goals/goal-delete-dialog/goal-delete-dialog.component';
@@ -28,6 +29,7 @@ import { AuthService } from './auth/auth.service';
 import { AuthGuard } from './guards/auth-guard.service';
 import { GoalsService } from './goals/goals.service';
 import { UserService } from './user/user.service';
+import { ConfirmService } from './confirm/confirm.service';
 
 @NgModule({
   declarations: [
@@ -35,8 +37,9 @@ import { UserService } from './user/user.service';
     LoginComponent,
     HomeComponent,
     GoalsComponent,
-    GoalDialogComponent,
+    ConfirmComponent,
     SettingsComponent,
+    GoalDialogComponent,
     GoalDeleteDialogComponent,
     FriendsDialogComponent
   ],
@@ -55,7 +58,8 @@ import { UserService } from './user/user.service';
     AuthService,
     AuthGuard,
     GoalsService,
-    UserService
+    UserService,
+    ConfirmService
   ],
   entryComponents: [
     GoalDialogComponent,
