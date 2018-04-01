@@ -38,7 +38,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this._route.data.subscribe((data: { content: any; friends: any }) => {
       this.user = data.content;
-      this.friends = data.friends;
+      this.friends = data.friends.friends;
+      this.pendingFriends = data.friends.pendingFriends;
       this.friendsDataSource = new MatTableDataSource(this.friends);
       this.pendingDataSource = new MatTableDataSource(this.pendingFriends);
     });

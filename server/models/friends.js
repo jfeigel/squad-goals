@@ -32,10 +32,18 @@ module.exports = {
         const data = await userModel.get(friend.friend);
         delete data.password;
         delete data.error;
+        data.status = friend.status;
         return data;
       })
     );
-    return friends;
+    let [confirmedFriends, pendingFriends] = _.partition(friends, {
+      status: 'Active'
+    });
+    confirmedFriends = _.map(confirmedFriends, friend =>
+      _.omit(friend, 'status')
+    );
+    pendingFriends = _.map(pendingFriends, friend => _.omit(friend, 'status'));
+    return { friends: confirmedFriends, pendingFriends: pendingFriends };
   },
   save: async function save(document) {
     const confirmation = await db.saveDocument(

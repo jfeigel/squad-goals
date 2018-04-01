@@ -73,7 +73,7 @@ export class GoalsComponent implements OnInit {
     this._route.data.subscribe(
       (data: { content: any; user: any; friends: any }) => {
         this.user = data.user;
-        this.users = _.map(data.friends, friend => {
+        this.users = _.map(data.friends.friends, friend => {
           return { _id: friend._id, name: friend.name };
         });
         this.users.unshift({
