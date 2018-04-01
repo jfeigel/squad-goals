@@ -67,24 +67,29 @@ export class GoalsComponent implements OnInit {
       const dayOfWeek = date.getDay();
       this.day = this._daysOfWeek[dayOfWeek];
     }, 1000);
-    this._route.data.subscribe((data: { content: any; user: any }) => {
-      this.selectedUser = data.user.user;
-      this.users = _.map(data.user.friends, friend => {
-        return { _id: friend._id, name: friend.name };
-      });
-      this.users.unshift({
-        _id: data.user.user._id,
-        name: data.user.user.name
-      });
-      this.view = data.user.user._id;
-      this._allGoalsData = _.cloneDeep(data.content.goals);
-      this._goalsData = _.cloneDeep(this._allGoalsData[0]);
-      this._setDates();
-      this.dataSource = new MatTableDataSource(
-        (this._goalsData && this._goalsData.goals) || []
-      );
-      this._calculate();
-    });
+    this._route.data.subscribe(
+      (data: { content: any; user: any; friends: any }) => {
+        this.selectedUser = data.user;
+        this.users = _.map(data.friends, friend => {
+          return { _id: friend._id, name: friend.name };
+        });
+        this.users.unshift({
+          _id: data.user._id,
+          name: data.user.name
+        });
+        this.view = data.user._id;
+        this._allGoalsData = _.cloneDeep(data.content);
+        this._allGoalsData = this._allGoalsData.sort((a, b) => {
+          return moment(new Date(a.date)).isBefore(new Date(b.date));
+        });
+        this._goalsData = _.cloneDeep(this._allGoalsData[0]);
+        this._setDates();
+        this.dataSource = new MatTableDataSource(
+          (this._goalsData && this._goalsData.goals) || []
+        );
+        this._calculate();
+      }
+    );
   }
 
   private _calculate() {
@@ -165,8 +170,8 @@ export class GoalsComponent implements OnInit {
   }
 
   public viewChanged(e) {
-    this._goalsService.get(e.value).then(goalsData => {
-      this._allGoalsData = _.cloneDeep(goalsData.goals);
+    this._goalsService.getByUser(e.value).then(goalsData => {
+      this._allGoalsData = _.cloneDeep(goalsData);
       this._goalsData = _.cloneDeep(this._allGoalsData[0]);
       this.dataSource.data = (this._goalsData && this._goalsData.goals) || [];
       if (this.selectedUser._id !== goalsData._id) {

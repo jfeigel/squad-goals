@@ -29,7 +29,8 @@ export class GoalsService {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<any> {
-    return this.get().then(
+    const user = JSON.parse(localStorage.getItem('user'));
+    return this.getByUser(user._id).then(
       data => {
         return data;
       },
@@ -54,6 +55,14 @@ export class GoalsService {
         delete result.error;
         return result;
       })
+      .catch(this._handleError);
+  }
+
+  getByUser(id): Promise<any> {
+    return this._http
+      .get(`${this._apiUrl}/user/${id}`, { withCredentials: true })
+      .toPromise()
+      .then(response => response.json())
       .catch(this._handleError);
   }
 

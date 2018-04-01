@@ -1,6 +1,8 @@
 const config = require('../config.json');
 const db = require('../helpers/db');
 
+const _ = require('lodash');
+
 module.exports = {
   create: async function create() {
     const confirmation = await db.createDatabase(`${config.id}_goals`);
@@ -21,13 +23,12 @@ module.exports = {
     return Object.assign(returnObj, data);
   },
   get: async function get(id) {
-    const document = await db.runView(
-      'goals/currentGoals',
-      id,
-      `${config.id}_goals`
-    );
-    let goals = document.results[0].value || [];
-    goals.error = document.error;
+    const document = await db.getDocument(id, `${config.id}_goals`);
+    return document;
+  },
+  getByUser: async function getByUser(id) {
+    const document = await db.runView('goals/byUser', id, `${config.id}_goals`);
+    const goals = _.map(document.results, 'value');
     return goals;
   },
   replace: async function replace(document) {

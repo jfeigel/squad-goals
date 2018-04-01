@@ -30,6 +30,7 @@ import { AuthGuard } from './guards/auth-guard.service';
 import { GoalsService } from './goals/goals.service';
 import { UserService } from './user/user.service';
 import { ConfirmService } from './confirm/confirm.service';
+import { FriendsService } from './friends/friends.service';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { ConfirmService } from './confirm/confirm.service';
     AuthGuard,
     GoalsService,
     UserService,
-    ConfirmService
+    ConfirmService,
+    FriendsService
   ],
   entryComponents: [
     GoalDialogComponent,

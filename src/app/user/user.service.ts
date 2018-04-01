@@ -43,7 +43,7 @@ export class UserService {
     state: RouterStateSnapshot
   ): Promise<any> {
     const user = JSON.parse(localStorage.getItem('user'));
-    return this.getFriends(user._id);
+    return this.get(user._id);
   }
 
   public get(id): Promise<any> {

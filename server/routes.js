@@ -7,6 +7,7 @@ const fs = require('fs');
 
 const user = require('./controllers/user');
 const goals = require('./controllers/goals');
+const friends = require('./controllers/friends');
 
 const routes = new Router();
 
@@ -59,14 +60,16 @@ routes.post('/api/user/signup', user.signup);
 routes.post('/api/user/confirm', user.confirmAccount);
 routes.get('/api/user/id/:id', user.get);
 routes.get('/api/user/email/:email', user.getByEmail);
-routes.get('/api/user/:id/friends', user.getFriends);
-routes.post('/api/user/:id/friends', user.addFriend);
-routes.put('/api/user/:id/friends', user.confirmFriend);
 routes.get('/api/user/search', user.search);
 
 routes.get('/api/goals/:id', goals.get);
+routes.get('/api/goals/user/:id', goals.getByUser);
 routes.post('/api/goals', goals.create);
 routes.put('/api/goals', goals.replace);
 routes.del('/api/goals', goals.remove);
+
+routes.get('/api/friends/:id', friends.get);
+routes.get('/api/friends/user/:id', friends.getByUser);
+routes.post('/api/friends', friends.save);
 
 app.use(routes.middleware());

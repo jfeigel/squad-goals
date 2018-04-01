@@ -11,6 +11,7 @@ import { AuthGuard } from './guards/auth-guard.service';
 import { GoalsService } from './goals/goals.service';
 import { UserService } from './user/user.service';
 import { ConfirmService } from './confirm/confirm.service';
+import { FriendsService } from './friends/friends.service';
 
 const routes: Routes = [
   {
@@ -28,7 +29,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     resolve: {
       content: GoalsService,
-      user: UserService
+      user: UserService,
+      friends: FriendsService
     }
   },
   {
@@ -36,7 +38,8 @@ const routes: Routes = [
     component: SettingsComponent,
     canActivate: [AuthGuard],
     resolve: {
-      content: UserService
+      content: UserService,
+      friends: FriendsService
     }
   },
   {

@@ -12,8 +12,7 @@ module.exports = {
     const returnObj = {
       enabled: false,
       name: 'John Doe',
-      password: null,
-      friends: []
+      password: null
     };
     const user = Object.assign(returnObj, data);
     if (user.password) {
@@ -53,39 +52,6 @@ module.exports = {
     let user = document.results[0].value;
     user.error = document.error;
     return user;
-  },
-  getFriends: async function getFriends(id) {
-    const document = await db.runView('user/friends', id, `${config.id}_user`);
-    const friends = _.map(document.results, 'value');
-    return friends;
-  },
-  addFriend: async function addFriend(user_id, friend_id) {
-    const user = await db.getDocument(user_id, `${config.id}_user`);
-    const friend = await db.getDocument(friend_id, `${config.id}_user`);
-    user.friends.push({ id: friend_id, status: 'Pending', confirm: friend_id });
-    friend.friends.push({ id: user_id, status: 'Pending', confirm: friend_id });
-    const userConfirmation = await this.save(user);
-    delete userConfirmation.enabled;
-    delete userConfirmation.password;
-    const friendConfirmation = await this.save(friend);
-    delete friendConfirmation.enabled;
-    delete friendConfirmation.password;
-    return { user: userConfirmation, friend: friendConfirmation };
-  },
-  confirmFriend: async function confirmFriend(user_id, friend_id) {
-    const user = await db.getDocument(user_id, `${config.id}_user`);
-    const friend = await db.getDocument(friend_id, `${config.id}_user`);
-    const userIndex = _.findIndex(user.friends, { id: friend_id });
-    user.friends[userIndex].status = 'Active';
-    const friendIndex = _.findIndex(friend.friends, { id: user_id });
-    friend.friends[friendIndex].status = 'Active';
-    const userConfirmation = await this.save(user);
-    delete userConfirmation.enabled;
-    delete userConfirmation.password;
-    const friendConfirmation = await this.save(friend);
-    delete friendConfirmation.enabled;
-    delete friendConfirmation.password;
-    return { user: userConfirmation, friend: friendConfirmation };
   },
   search: async function search(query) {
     const opts = {

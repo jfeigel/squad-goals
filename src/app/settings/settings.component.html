@@ -2,7 +2,7 @@
   <h2>Friends</h2>
   <div class="pending-container" *ngIf="pendingFriends.length > 0">
     <h3>Pending Friends</h3>
-    <div fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
       <mat-card *ngFor="let friend of pendingFriends; let i = index;">
         <mat-card-header>
           <div mat-card-avatar>
@@ -25,7 +25,7 @@
     <span fxFlex="auto"></span>
     <button mat-raised-button color="accent" (click)="addRow()" *ngIf="friends.length > 0">Add Friend</button>
   </div>
-  <div fxLayout="row" fxLayoutAlign="space-between center">
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
     <mat-card *ngFor="let friend of friends; let i = index;">
       <mat-card-header>
         <div mat-card-avatar>
