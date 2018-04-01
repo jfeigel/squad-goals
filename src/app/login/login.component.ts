@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import * as _ from 'lodash';
 
@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
+    private _route: ActivatedRoute,
     private _router: Router,
     private _authService: AuthService
   ) {
@@ -51,7 +52,11 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._route.params.subscribe(params => {
+      this.loginModel.username = params.email;
+    });
+  }
 
   onLogin() {
     this.loginErrorMessage = null;

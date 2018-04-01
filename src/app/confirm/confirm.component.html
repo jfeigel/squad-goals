@@ -2,6 +2,6 @@
   <div *ngIf="hasError" class="error-container">{{errorMessage}}</div>
   <div *ngIf="!hasError" class="success-container" fxLayout="column" fxLayoutAlign="center center">
     <span>Your account has been confirmed! Login to view your account.</span>
-    <a mat-raised-button color="accent" routerLink="/login">Login</a>
+    <button mat-raised-button color="accent" (click)="goToLogin()">Login</button>
   </div>
 </div>

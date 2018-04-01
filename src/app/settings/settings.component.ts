@@ -31,6 +31,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     private _route: ActivatedRoute,
+    private _router: Router,
     private _userService: UserService
   ) {}
 
@@ -78,6 +79,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
           this.pendingDataSource.data = data;
         }
       });
+  }
+
+  public viewRow(id): void {
+    this._router.navigate(['/goals', { user: id }]);
   }
 
   public confirmFriend(friend_id): void {

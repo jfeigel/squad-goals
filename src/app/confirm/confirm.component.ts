@@ -24,4 +24,8 @@ export class ConfirmComponent implements OnInit {
   }
 
   ngOnInit() {}
+
+  public goToLogin(): void {
+    this._router.navigate(['/login', { email: this.user.email }]);
+  }
 }

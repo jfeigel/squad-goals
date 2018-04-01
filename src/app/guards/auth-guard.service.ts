@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   ): boolean {
     const url: string = state.url;
 
-    if (url === '/login' || url.indexOf('/confirm') !== -1) {
+    if (url.indexOf('/login') !== -1 || url.indexOf('/confirm') !== -1) {
       if (this._authService.isLoggedIn) {
         this._router.navigate(['/goals']);
         return false;

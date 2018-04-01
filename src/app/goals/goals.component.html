@@ -6,7 +6,7 @@
   </mat-form-field>
   <span fxFlex="auto"></span>
   <mat-form-field>
-    <mat-select placeholder="View As" [(value)]="view" (selectionChange)="viewChanged($event)">
+    <mat-select placeholder="View As" [(value)]="selectedUser" (selectionChange)="viewChanged($event)">
       <mat-option *ngFor="let user of users" [value]="user._id">{{user.name}}</mat-option>
     </mat-select>
   </mat-form-field>

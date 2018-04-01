@@ -43,9 +43,9 @@ export class GoalsComponent implements OnInit {
   ];
   public dataSource;
   public day;
-  public selectedUser;
+  public user;
   public users: Array<any> = [];
-  public view;
+  public selectedUser;
   public selectedDate;
   public dates: Array<any> = [];
   public dateRange;
@@ -67,9 +67,12 @@ export class GoalsComponent implements OnInit {
       const dayOfWeek = date.getDay();
       this.day = this._daysOfWeek[dayOfWeek];
     }, 1000);
+    this._route.params.subscribe(params => {
+      this.selectedUser = params.user;
+    });
     this._route.data.subscribe(
       (data: { content: any; user: any; friends: any }) => {
-        this.selectedUser = data.user;
+        this.user = data.user;
         this.users = _.map(data.friends, friend => {
           return { _id: friend._id, name: friend.name };
         });
@@ -77,7 +80,7 @@ export class GoalsComponent implements OnInit {
           _id: data.user._id,
           name: data.user.name
         });
-        this.view = data.user._id;
+        this.selectedUser = this.selectedUser || data.user._id;
         this._allGoalsData = _.cloneDeep(data.content);
         this._allGoalsData = this._allGoalsData.sort((a, b) => {
           return moment(new Date(a.date)).isBefore(new Date(b.date));
@@ -174,7 +177,7 @@ export class GoalsComponent implements OnInit {
       this._allGoalsData = _.cloneDeep(goalsData);
       this._goalsData = _.cloneDeep(this._allGoalsData[0]);
       this.dataSource.data = (this._goalsData && this._goalsData.goals) || [];
-      if (this.selectedUser._id !== goalsData._id) {
+      if (this.user._id !== goalsData._id) {
         const index = this.displayedColumns.indexOf('add');
         if (index !== -1) {
           this.displayedColumns.splice(index, 1);

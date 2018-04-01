@@ -27,7 +27,15 @@ module.exports = {
     return document;
   },
   getByUser: async function getByUser(id) {
-    const document = await db.runView('goals/byUser', id, `${config.id}_goals`);
+    const opts = {
+      key: id,
+      descending: true
+    };
+    const document = await db.runView(
+      'goals/byUser',
+      opts,
+      `${config.id}_goals`
+    );
     const goals = _.map(document.results, 'value');
     return goals;
   },

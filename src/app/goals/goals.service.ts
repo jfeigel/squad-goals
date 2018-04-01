@@ -29,8 +29,14 @@ export class GoalsService {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<any> {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return this.getByUser(user._id).then(
+    let id;
+    if (route.params.user) {
+      id = route.params.user;
+    } else {
+      const user = JSON.parse(localStorage.getItem('user'));
+      id = user._id;
+    }
+    return this.getByUser(id).then(
       data => {
         return data;
       },
