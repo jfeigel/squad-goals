@@ -7,6 +7,7 @@ import {
 } from '@angular/material';
 
 import * as _ from 'lodash';
+import * as moment from 'moment';
 
 import { GoalDialogComponent } from './goal-dialog/goal-dialog.component';
 
@@ -42,11 +43,16 @@ export class GoalsComponent implements OnInit {
   ];
   public dataSource;
   public day;
-  public user;
+  public selectedUser;
   public users: Array<any> = [];
   public view;
+  public selectedDate;
+  public dates: Array<any> = [];
+  public dateRange;
 
   private _goalsData;
+  private _allGoalsData;
+  private _daysOfWeek = ['su', 'm', 't', 'w', 'th', 'f', 'sa'];
 
   constructor(
     public dialog: MatDialog,
@@ -59,44 +65,32 @@ export class GoalsComponent implements OnInit {
     setInterval(() => {
       const date = new Date();
       const dayOfWeek = date.getDay();
-      switch (dayOfWeek) {
-        case 0:
-          this.day = 'su';
-          break;
-        case 1:
-          this.day = 'm';
-          break;
-        case 2:
-          this.day = 't';
-          break;
-        case 3:
-          this.day = 'w';
-          break;
-        case 4:
-          this.day = 'th';
-          break;
-        case 5:
-          this.day = 'f';
-          break;
-        case 6:
-          this.day = 'sa';
-          break;
-      }
+      this.day = this._daysOfWeek[dayOfWeek];
     }, 1000);
-    this._route.data.subscribe((data: { content: any, user: any }) => {
-      this.user = data.user.user;
+    this._route.data.subscribe((data: { content: any; user: any }) => {
+      this.selectedUser = data.user.user;
       this.users = _.map(data.user.friends, friend => {
         return { _id: friend._id, name: friend.name };
       });
-      this.users.unshift({ _id: data.user.user._id, name: data.user.user.name });
+      this.users.unshift({
+        _id: data.user.user._id,
+        name: data.user.user.name
+      });
       this.view = data.user.user._id;
-      this._goalsData = data.content;
-      this.dataSource = new MatTableDataSource(this._goalsData.goals);
+      this._allGoalsData = _.cloneDeep(data.content.goals);
+      this._goalsData = _.cloneDeep(this._allGoalsData[0]);
+      this._setDates();
+      this.dataSource = new MatTableDataSource(
+        (this._goalsData && this._goalsData.goals) || []
+      );
       this._calculate();
     });
   }
 
   private _calculate() {
+    if (this._allGoalsData.length === 0) {
+      return false;
+    }
     this.complete = _.reduce(
       this._goalsData.goals,
       (complete, goal: any) => {
@@ -159,25 +153,44 @@ export class GoalsComponent implements OnInit {
     }
   }
 
+  private _setDates() {
+    this.dates = _.map(this._allGoalsData, week => {
+      const rangeStart = moment(new Date(week.date));
+      const rangeEnd = moment(new Date(week.date)).add(7, 'd');
+      return `${rangeStart.format('MM/DD/YYYY')} - ${rangeEnd.format(
+        'MM/DD/YYYY'
+      )}`;
+    });
+    this.selectedDate = this.dates[0];
+  }
+
   public viewChanged(e) {
-    this._goalsService
-      .get(e.value)
-      .then(goalsData => {
-        this._goalsData = goalsData;
-        this.dataSource.data = goalsData.goals;
-        if (this.user._id !== goalsData._id) {
-          const index = this.displayedColumns.indexOf('add');
-          if (index !== -1) {
-            this.displayedColumns.splice(index, 1);
-          }
-        } else {
-          const index = this.displayedColumns.indexOf('add');
-          if (index === -1) {
-            this.displayedColumns.push('add');
-          }
+    this._goalsService.get(e.value).then(goalsData => {
+      this._allGoalsData = _.cloneDeep(goalsData.goals);
+      this._goalsData = _.cloneDeep(this._allGoalsData[0]);
+      this.dataSource.data = (this._goalsData && this._goalsData.goals) || [];
+      if (this.selectedUser._id !== goalsData._id) {
+        const index = this.displayedColumns.indexOf('add');
+        if (index !== -1) {
+          this.displayedColumns.splice(index, 1);
         }
-        this._calculate();
-      });
+      } else {
+        const index = this.displayedColumns.indexOf('add');
+        if (index === -1) {
+          this.displayedColumns.push('add');
+        }
+      }
+      this._setDates();
+      this._calculate();
+    });
+  }
+
+  public dateRangeChanged(e) {
+    const date = `${e.value.split(' ')[0]} 00:00:00`;
+    const goals = _.find(this._allGoalsData, { date: date }).goals;
+    this._goalsData.goals = goals;
+    this.dataSource.data = goals;
+    this._calculate();
   }
 
   checkboxChanged(e, index, day) {

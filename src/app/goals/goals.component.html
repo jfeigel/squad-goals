@@ -1,7 +1,13 @@
-<div fxLayout="row" fxLayoutAlign="end center">
+<div fxLayout="row" fxLayoutAlign="center center">
+  <mat-form-field *ngIf="dates && dates.length > 0">
+    <mat-select placeholder="Date Range" [(value)]="selectedDate" (selectionChange)="dateRangeChanged($event)">
+      <mat-option *ngFor="let date of dates" [value]="date">{{date}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <span fxFlex="auto"></span>
   <mat-form-field>
     <mat-select placeholder="View As" [(value)]="view" (selectionChange)="viewChanged($event)">
-      <mat-option *ngFor="let user of users" [value]="user._id">{{user.name}}</mat-option>
+      <mat-option *ngFor="let selectedUser of users" [value]="selectedUser._id">{{selectedUser.name}}</mat-option>
     </mat-select>
   </mat-form-field>
 </div>
@@ -24,43 +30,43 @@
     <ng-container matColumnDef="m">
       <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'm'}">Monday</mat-header-cell>
       <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'm'}">
-        <mat-checkbox [disabled]="view !== user._id" [checked]="goal.m" (change)="checkboxChanged($event, i, 'm')"></mat-checkbox>
+        <mat-checkbox [disabled]="view !== selectedUser._id" [checked]="goal.m" (change)="checkboxChanged($event, i, 'm')"></mat-checkbox>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="t">
       <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 't'}">Tuesday</mat-header-cell>
       <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 't'}">
-        <mat-checkbox [disabled]="view !== user._id" [checked]="goal.t" (change)="checkboxChanged($event, i, 't')"></mat-checkbox>
+        <mat-checkbox [disabled]="view !== selectedUser._id" [checked]="goal.t" (change)="checkboxChanged($event, i, 't')"></mat-checkbox>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="w">
       <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'w'}">Wednesday</mat-header-cell>
       <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'w'}">
-        <mat-checkbox [disabled]="view !== user._id" [checked]="goal.w" (change)="checkboxChanged($event, i, 'w')"></mat-checkbox>
+        <mat-checkbox [disabled]="view !== selectedUser._id" [checked]="goal.w" (change)="checkboxChanged($event, i, 'w')"></mat-checkbox>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="th">
       <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'th'}">Thursday</mat-header-cell>
       <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'th'}">
-        <mat-checkbox [disabled]="view !== user._id" [checked]="goal.th" (change)="checkboxChanged($event, i, 'th')"></mat-checkbox>
+        <mat-checkbox [disabled]="view !== selectedUser._id" [checked]="goal.th" (change)="checkboxChanged($event, i, 'th')"></mat-checkbox>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="f">
       <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'f'}">Friday</mat-header-cell>
       <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'f'}">
-        <mat-checkbox [disabled]="view !== user._id" [checked]="goal.f" (change)="checkboxChanged($event, i, 'f')"></mat-checkbox>
+        <mat-checkbox [disabled]="view !== selectedUser._id" [checked]="goal.f" (change)="checkboxChanged($event, i, 'f')"></mat-checkbox>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="sa">
       <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'sa'}">Saturday</mat-header-cell>
       <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'sa'}">
-        <mat-checkbox [disabled]="view !== user._id" [checked]="goal.sa" (change)="checkboxChanged($event, i, 'sa')"></mat-checkbox>
+        <mat-checkbox [disabled]="view !== selectedUser._id" [checked]="goal.sa" (change)="checkboxChanged($event, i, 'sa')"></mat-checkbox>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="su">
       <mat-header-cell *matHeaderCellDef fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'su'}">Sunday</mat-header-cell>
       <mat-cell *matCellDef="let goal; let i = index;" fxLayout="row" fxLayoutAlign="center center" [ngClass]="{'highlight': day === 'su'}">
-        <mat-checkbox [disabled]="view !== user._id" [checked]="goal.su" (change)="checkboxChanged($event, i, 'su')"></mat-checkbox>
+        <mat-checkbox [disabled]="view !== selectedUser._id" [checked]="goal.su" (change)="checkboxChanged($event, i, 'su')"></mat-checkbox>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="add">
@@ -104,6 +110,8 @@
 </div>
 <div class="no-goals" *ngIf="!(dataSource.data && dataSource.data.length > 0)" fxLayout="column" fxLayoutAlign="space-between center">
   <mat-icon>assignment</mat-icon>
-  <span>No goals found.<span *ngIf="view === user._id">&nbsp;Add a new one now!</span></span>
-  <button mat-raised-button color="accent" (click)="addRow()" *ngIf="view === user._id">Add Goal</button>
+  <span>No goals found.
+    <span *ngIf="view === selectedUser._id">&nbsp;Add a new one now!</span>
+  </span>
+  <button mat-raised-button color="accent" (click)="addRow()" *ngIf="view === selectedUser._id">Add Goal</button>
 </div>
