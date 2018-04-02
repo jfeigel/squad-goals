@@ -7,11 +7,13 @@ import { GoalsComponent } from './goals/goals.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ConfirmComponent } from './confirm/confirm.component';
 
-import { AuthGuard } from './guards/auth-guard.service';
 import { GoalsService } from './goals/goals.service';
 import { UserService } from './user/user.service';
 import { ConfirmService } from './confirm/confirm.service';
 import { FriendsService } from './friends/friends.service';
+
+import { AuthGuard } from './guards/auth-guard.service';
+import { CanDeactivateGuard } from './guards/can-deactivate-guard.service';
 
 const routes: Routes = [
   {
@@ -37,6 +39,7 @@ const routes: Routes = [
     path: 'settings',
     component: SettingsComponent,
     canActivate: [AuthGuard],
+    canDeactivate: [CanDeactivateGuard],
     resolve: {
       content: UserService,
       friends: FriendsService

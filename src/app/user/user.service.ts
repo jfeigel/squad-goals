@@ -70,6 +70,14 @@ export class UserService {
       .catch(this._handleError);
   }
 
+  public save(user): Promise<any> {
+    return this._http
+      .put(this._apiUrl, user, { withCredentials: true })
+      .toPromise()
+      .then(response => response.json())
+      .catch(this._handleError);
+  }
+
   public getFriends(id): Promise<any> {
     return this._http
       .get(`${this._apiUrl}/${id}/friends`, { withCredentials: true })

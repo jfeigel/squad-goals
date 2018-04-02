@@ -15,6 +15,13 @@ module.exports.get = async function(ctx) {
   ctx.body = user;
 };
 
+module.exports.save = async function(ctx) {
+  const user = await userModel.save(ctx.request.body);
+  delete user.password;
+  delete user.enabled;
+  ctx.body = user;
+};
+
 module.exports.search = async function(ctx) {
   const query = ctx.query.query;
   if (query && query.length > 0) {

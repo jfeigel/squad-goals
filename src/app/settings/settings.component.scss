@@ -1,8 +1,72 @@
 @import 'src/styles/theme';
 
-mat-cell,
+::ng-deep .editing {
+  .mat-drawer-backdrop {
+    visibility: visible;
+    background-color: rgba(0, 0, 0, .6);
+  }
+  .mat-drawer {
+    z-index: 4 !important;
+  }
+  .avatar-container {
+    cursor: pointer;
+
+    &:hover .edit-hover {
+      display: block;
+    }
+  }
+}
+
+::ng-deep .avatar-container {
+  height: 3.4rem;
+  width: 3.4rem;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+
+  .edit-hover {
+    position: absolute;
+    bottom: 0;
+    height: 1.5rem;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    display: none;
+    cursor: pointer;
+  }
+}
+
+h1 {
+  margin-bottom: 0;
+}
+
+.mat-drawer-container {
+  margin: -1rem;
+  background-color: #fff;
+  height: calc(100% + 2rem);
+}
+
+.mat-drawer {
+  width: 20vw;
+}
+
+.mat-drawer,
+.mat-drawer-content {
+  padding: 1rem;
+}
+
+.mat-cell,
 .addButton {
   overflow: visible;
+}
+
+.avatar {
+  height: 4rem;
+  width: 4rem;
+  font-size: 4rem;
+  color: #aaa;
 }
 
 .friends-container .mat-card {

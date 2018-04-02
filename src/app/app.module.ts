@@ -26,11 +26,13 @@ import { GoalDeleteDialogComponent } from './goals/goal-delete-dialog/goal-delet
 import { FriendsDialogComponent } from './settings/friends-dialog/friends-dialog.component';
 
 import { AuthService } from './auth/auth.service';
-import { AuthGuard } from './guards/auth-guard.service';
 import { GoalsService } from './goals/goals.service';
 import { UserService } from './user/user.service';
 import { ConfirmService } from './confirm/confirm.service';
 import { FriendsService } from './friends/friends.service';
+
+import { AuthGuard } from './guards/auth-guard.service';
+import { CanDeactivateGuard } from './guards/can-deactivate-guard.service';
 
 @NgModule({
   declarations: [
@@ -57,11 +59,12 @@ import { FriendsService } from './friends/friends.service';
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     AuthService,
-    AuthGuard,
     GoalsService,
     UserService,
     ConfirmService,
-    FriendsService
+    FriendsService,
+    AuthGuard,
+    CanDeactivateGuard
   ],
   entryComponents: [
     GoalDialogComponent,

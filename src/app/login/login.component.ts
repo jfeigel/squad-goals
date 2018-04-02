@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -13,6 +13,8 @@ import { PasswordValidation } from '../shared/password-validation';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  @HostBinding('class.page-component') isPage = true;
+
   public loginForm: FormGroup;
   public signupForm: FormGroup;
   public loginModel = {

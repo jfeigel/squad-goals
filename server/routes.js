@@ -58,6 +58,7 @@ routes.post('/api/logout', function(ctx) {
 
 routes.post('/api/user/signup', user.signup);
 routes.post('/api/user/confirm', user.confirmAccount);
+routes.put('/api/user/', user.save);
 routes.get('/api/user/id/:id', user.get);
 routes.get('/api/user/email/:email', user.getByEmail);
 routes.get('/api/user/search', user.search);

@@ -8,7 +8,7 @@
       <mat-icon>person</mat-icon>
     </button>
     <span *ngIf="user" fxLayout="row" fxLayoutAlign="stretch center">
-      <span>{{user.name}}</span>
+      <span *ngIf="showUser">{{user.name}}</span>
       <div class="menu-container">
         <button mat-icon-button [matMenuTriggerFor]="menu">
           <mat-icon>more_vert</mat-icon>

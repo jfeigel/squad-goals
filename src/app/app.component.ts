@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
 import { Subscription } from 'rxjs/Subscription';
@@ -16,6 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public user;
   public badgeCount = 0;
   public connection: Subscription;
+  public showUser = true;
 
   constructor(
     public snackbar: MatSnackBar,
@@ -24,11 +25,17 @@ export class AppComponent implements OnInit, OnDestroy {
     private _userService: UserService
   ) {
     _router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.showUser = !(event.url === '/settings');
+      }
       if (event instanceof NavigationEnd) {
         this.user = _authService.user;
 
         if (event.url === '/settings') {
           this.badgeCount = 0;
+          this.showUser = false;
+        } else {
+          this.showUser = true;
         }
       }
     });

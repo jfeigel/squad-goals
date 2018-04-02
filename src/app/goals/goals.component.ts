@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   MatDialog,
@@ -20,6 +20,8 @@ import { GoalDeleteDialogComponent } from './goal-delete-dialog/goal-delete-dial
   styleUrls: ['./goals.component.scss']
 })
 export class GoalsComponent implements OnInit {
+  @HostBinding('class.page-component') isPage = true;
+
   public complete = 0;
   public total = 0;
   public amountComplete = 0;

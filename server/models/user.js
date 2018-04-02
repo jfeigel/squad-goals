@@ -67,6 +67,11 @@ module.exports = {
     return users;
   },
   save: async function save(document) {
+    if (document.password) {
+      document.password = encryptPassword(document.password);
+    }
+    const user = await db.getDocument(document._id, `${config.id}_user`);
+    document = Object.assign(user, document);
     const confirmation = await db.saveDocument(document, `${config.id}_user`);
     return confirmation;
   }
