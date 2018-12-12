@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Router } from '@angular/router';
 
-import 'rxjs/add/operator/toPromise';
+
 
 import { environment } from '../../environments/environment';
 

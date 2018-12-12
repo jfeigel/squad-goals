@@ -99,6 +99,14 @@ h1 {
   }
 }
 
+.notice {
+  border-bottom: 1px solid #efefef;
+  color: #aaa;
+  font-style: italic;
+  margin: 0 -24px;
+  padding-bottom: 24px;
+}
+
 .mat-cell {
   &.pending {
     color: mat-color($goals-accent);

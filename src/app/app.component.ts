@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { AuthService } from './auth/auth.service';
 import { UserService } from './user/user.service';

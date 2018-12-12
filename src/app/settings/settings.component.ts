@@ -8,7 +8,7 @@ import {
   MatTableDataSource
 } from '@angular/material';
 
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import * as _ from 'lodash';
 
 import { FriendsDialogComponent } from './friends-dialog/friends-dialog.component';
@@ -113,6 +113,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
     });
   }
 
+  public deleteRequest(friend_id): void {
+    this._userService.deleteRequest(this.user._id, friend_id).then(friend => {
+      this._requestDeleted(friend);
+    });
+  }
+
   public editUser(): void {
     this.isEditingUser = true;
   }
@@ -166,6 +172,13 @@ export class SettingsComponent implements OnInit, OnDestroy {
     this.friends = friendsData;
     this.pendingFriends = pendingData;
     this.friendsDataSource.data = friendsData;
+    this.pendingDataSource.data = pendingData;
+  }
+
+  private _requestDeleted(friend): void {
+    const pendingData = this.pendingDataSource.data;
+    const pendingIndex = _.findIndex(pendingData, { _id: friend._id });
+    pendingData.splice(pendingIndex, 1);
     this.pendingDataSource.data = pendingData;
   }
 }

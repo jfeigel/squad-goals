@@ -2,8 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/switchMap';
+
+
 
 import { UserService } from '../../user/user.service';
 

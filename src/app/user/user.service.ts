@@ -7,11 +7,9 @@ import {
   RouterStateSnapshot
 } from '@angular/router';
 
-import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import { Subject } from 'rxjs/Subject';
+
+
+import { Observable ,  Observer ,  Subject } from 'rxjs';
 import * as io from 'socket.io-client';
 
 import { environment } from '../../environments/environment';
@@ -105,6 +103,14 @@ export class UserService {
       .put(`${this._apiUrl}/${user_id}/friends`, {
         friend_id: friend_id
       })
+      .toPromise()
+      .then(response => response.json())
+      .catch(this._handleError);
+  }
+
+  public deleteRequest(user_id, friend_id): Promise<any> {
+    return this._http
+      .delete(`${this._apiUrl}/${user_id}/friends/${friend_id}`)
       .toPromise()
       .then(response => response.json())
       .catch(this._handleError);

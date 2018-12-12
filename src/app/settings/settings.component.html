@@ -56,11 +56,12 @@
               <mat-card-title>{{friend.name}}</mat-card-title>
               <mat-card-subtitle>{{friend.email}}</mat-card-subtitle>
             </mat-card-header>
-            <mat-card-content *ngIf="friend.confirm !== user._id">
+            <mat-card-content class="notice" *ngIf="friend.confirm !== user._id">
               <p>Waiting for confirmation</p>
             </mat-card-content>
-            <mat-card-actions *ngIf="friend.confirm === user._id">
-              <button mat-button color="primary" (click)="confirmFriend(friend._id)">Confirm</button>
+            <mat-card-actions>
+              <button *ngIf="friend.confirm === user._id" mat-button color="primary" (click)="confirmFriend(friend._id)">Confirm</button>
+              <button *ngIf="friend.confirm !== user._id" mat-button color="warn" (click)="deleteRequest(friend._id)">Delete</button>
             </mat-card-actions>
           </mat-card>
         </div>
